@@ -15,6 +15,8 @@ public abstract class Piece{
         }else{
             this.side='Y';
         }
+
+        piecesPosition[x][y]=this;
     }
 
     public int getPosX(){
