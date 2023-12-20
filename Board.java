@@ -14,8 +14,8 @@ public class Board extends JFrame{
 
         for(int i=0; i<6; i++){
             for(int j=0; j<7; j++){
-                    String xS= String.valueOf(i) + ", " + String.valueOf(j);
-                    Tile.tiles[i][j] = new Tile(xS, i, j);
+                    // String xS= String.valueOf(i) + ", " + String.valueOf(j);
+                    Tile.tiles[i][j] = new Tile(i, j);
                     gameBoard.add(Tile.tiles[i][j]);
             }
         }
