@@ -1,7 +1,7 @@
 public class PointPiece extends Piece{
 
-    public PointPiece(Board b, int x, int y) {
-        super(b, x, y);
+    public PointPiece(int x, int y) {
+        super(x, y);
     }
     
 }
