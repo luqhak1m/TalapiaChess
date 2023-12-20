@@ -1,7 +1,7 @@
 public class SunPiece extends Piece{
 
-    public SunPiece(Board b, int x, int y) {
-        super(b, x, y);
+    public SunPiece(int x, int y) {
+        super(x, y);
     }
     
 }
