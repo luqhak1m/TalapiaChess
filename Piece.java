@@ -25,6 +25,15 @@ public abstract class Piece{
     public int getPosY(){
         return this.posY;
     }
+    public void setPosXY(int x, int y){
+
+        piecesPosition[posX][posY]=null;
+
+        this.posX=x;
+        this.posY=y;
+
+        piecesPosition[x][y]=this;
+    }
 
     public void setPosX(int x){
         this.posX=x;
@@ -40,5 +49,4 @@ public abstract class Piece{
         piecesPosition[x][y]=piece;
     }
 
-    
 }
