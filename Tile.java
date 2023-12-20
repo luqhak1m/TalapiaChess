@@ -5,10 +5,9 @@ public class Tile extends JButton{
 
     int xCoord, yCoord;
     
-    static Tile[][] tiles = new Tile[6][7];
+    public static Tile[][] tiles = new Tile[6][7];
 
-    public Tile(String s, int x, int y){
-        super(s);
+    public Tile(int x, int y){
         setBackground(new Color(139,68,19));
         setSize(200, 200);  
         this.xCoord=x;
