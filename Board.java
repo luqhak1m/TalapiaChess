@@ -1,21 +1,16 @@
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*; 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
 
 public class Board extends JFrame{
 
     JPanel gameBoard = new JPanel(new GridLayout (6,7));
 
-    public Board(){
+    public Board(GameControl c){
 
         for(int i=0; i<6; i++){
             for(int j=0; j<7; j++){
-                    // String xS= String.valueOf(i) + ", " + String.valueOf(j);
-                    Tile.tiles[i][j] = new Tile(i, j);
+                    Tile.tiles[i][j] = new Tile(i, j, c);
                     gameBoard.add(Tile.tiles[i][j]);
             }
         }
