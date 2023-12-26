@@ -3,6 +3,8 @@ public abstract class Piece{
     private int posX, posY;
     private char side;
     static Piece selectedPiece=null;
+    static Piece piecePositions[][]=new Piece[6][7];
+
 
     public Piece(int x, int y){
 
@@ -14,6 +16,8 @@ public abstract class Piece{
         }else{
             this.side='Y';
         }
+
+        piecePositions[x][y]=this;
     }
 
     public int getPosX(){
