@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         GameControl controller=new GameControl();
-        new Board();
+        new Board(controller);
 
         PlusPiece yellowPlus1 = new PlusPiece(5, 0);
         PlusPiece yellowPlus2 = new PlusPiece(5, 6);
