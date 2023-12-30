@@ -1,22 +1,23 @@
-import java.awt.*;
+import javax.swing.JFrame;
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.*;
 
-public class Tile extends JButton{
+public class Board extends JFrame{
 
-    int xCoord, yCoord;
-    
-    public static Tile[][] tiles = new Tile[6][7];
+    JPanel gameBoard = new JPanel(new GridLayout (6,7));
 
-    public Tile(int x, int y, GameControl c){
-        setBackground(new Color(139,68,19));
-        setSize(200, 200);  
-        this.xCoord=x;
-        this.yCoord=y;     
-        this.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e){
-                c.clickTile(xCoord, yCoord);
+    public Board(GameControl c){
+
+        for(int i=0; i<6; i++){
+            for(int j=0; j<7; j++){
+                    Tile.tiles[i][j] = new Tile(i, j, c);
+                    gameBoard.add(Tile.tiles[i][j]);
             }
-        });          
+        }
+
+        add(gameBoard, BorderLayout.CENTER);
+        setSize(600,600);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
