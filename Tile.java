@@ -15,7 +15,7 @@ public class Tile extends JButton{
         this.yCoord=y;     
         this.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
-                c.clickTile(xCoord, yCoord, c);
+                c.clickTile(xCoord, yCoord);
             }
         });          
     }
