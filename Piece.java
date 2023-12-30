@@ -31,4 +31,6 @@ public abstract class Piece{
         this.posX=x;
         this.posY=y;
     }
+
+    public abstract void printSomething();
 }
