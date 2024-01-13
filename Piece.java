@@ -1,10 +1,10 @@
 public abstract class Piece{
 
     private int posX, posY;
+    static int row=6, column=7;
     private char side, status;
     static Piece selectedPiece=null;
-    static Piece piecePositions[][]=new Piece[6][7];
-
+    static Piece piecePositions[][]=new Piece[row][column];
 
     public Piece(int x, int y, char st, char si){
 

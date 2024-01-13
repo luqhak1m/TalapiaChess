@@ -8,7 +8,6 @@ public class GameControl {
     // Mapping methods Start //
     
     private HashMap<Piece, PieceIcon> pieceIconMap = new HashMap<>();
-    Piece piecePositions[][]=new Piece[6][7];
     
     public void mapPiecesIcon(Piece p, PieceIcon pIcon){
         pieceIconMap.putIfAbsent(p, pIcon);
@@ -20,10 +19,10 @@ public class GameControl {
 
     // Initialize Pieces and Icons //
     public void initializePiece(String pieceType, int x, int y, char status, char side, String imagePath) {
-        Piece piece = CreatePiece.createPiece(pieceType, x, y, status, side);
-        PieceIcon pieceIcon = new PieceIcon(piece, PieceIcon.getImage(imagePath));
+        Piece piece=CreatePiece.createPiece(pieceType, x, y, status, side);
+        PieceIcon pieceIcon=new PieceIcon(piece, PieceIcon.getImage(imagePath));
         mapPiecesIcon(piece, pieceIcon);
-        setPiecesIcon(piece);
+        setPieceAtTile(piece);
     }
 
     // Turn methods Start //
@@ -40,23 +39,38 @@ public class GameControl {
             return true;
         }else{return false;}
     }
-
-    public void changeTurn(){
+    
+    public void updateTurn(){
         if(whoseTurn=='Y'){
             whoseTurn='B';
         }else{whoseTurn='Y';}
-    }
-
-    public void updateTurn(){
         turnCount++;
-        changeTurn();
-        if(turnCount%2==0){
-
+        if(turnCount%4==0){
+            swapPieces();
         }
     }
 
     public void swapPieces(){
-
+        for(int i=0; i<Piece.row; i++){
+            for(int j=0; j<Piece.column; j++){
+                if(Piece.piecePositions[i][j] instanceof TimePiece){
+                    System.out.println("Swapping Time with Plus at coordinate " + i + ", " + j);
+                    char sidePlaceholder=Piece.piecePositions[i][j].getSide();
+                    removePieceFromTile(Piece.piecePositions[i][j]);
+                    if(sidePlaceholder=='Y'){
+                        initializePiece("PlusPiece", i, j, 'A', sidePlaceholder, "piecesPics/yellowPlus.png");
+                    }else{initializePiece("PlusPiece", i, j, 'A', sidePlaceholder, "piecesPics/bluePlus.png");}
+                }
+                else if(Piece.piecePositions[i][j] instanceof PlusPiece){
+                    System.out.println("Swapping Plus with Time at coordinate " + i + ", " + j);
+                    char sidePlaceholder=Piece.piecePositions[i][j].getSide();
+                    removePieceFromTile(Piece.piecePositions[i][j]);
+                    if(sidePlaceholder=='Y'){
+                        initializePiece("TimePiece", i, j, 'A', sidePlaceholder, "piecesPics/yellowTime.png");
+                    }else{initializePiece("TimePiece", i, j, 'A', sidePlaceholder, "piecesPics/blueTime.png");}
+                }
+            }
+        }
     }
 
     public void printSelectedPiece(){
@@ -74,7 +88,8 @@ public class GameControl {
 
     public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
 
-        System.out.println("\n+-+-+-+-+-+-+\nTile clicked!\n");
+        System.out.println("\n+-+-+-+-+-+-+\nTile clicked!");
+        System.out.println("Turn number " + turnCount + "\n");
 
         if(Piece.selectedPiece==null){
             verifyValidTurn(x, y);
@@ -98,8 +113,8 @@ public class GameControl {
     }
 
     public void removePieceFromTile(Piece p){
-        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(null);
         Piece.piecePositions[p.getPosX()][p.getPosY()]=null;
+        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(null);
     }
 
     public void setPiecesIcon(Piece p){
@@ -132,7 +147,7 @@ public class GameControl {
             setPieceAtTile(p);
 
             Piece.selectedPiece=null;
-            changeTurn();
+            updateTurn();
 
         }else{
             System.out.println("invalid move bb");
