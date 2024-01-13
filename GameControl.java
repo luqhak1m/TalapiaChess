@@ -15,7 +15,7 @@ public class GameControl {
         swapPieceMap.put(SunPiece.class, new SwappingPieceInfo(PointPiece.class, "piecesPics/yellowArrow.png", "piecesPics/blueArrow.png"));
     }
 
-    // Mapping methods Start //
+    // mapping Pieces to its respective pieceIcons
     
     private HashMap<Piece, PieceIcon> pieceIconMap = new HashMap<>();
     
@@ -27,7 +27,7 @@ public class GameControl {
         return pieceIconMap;
     }
 
-    // Initialize Pieces and Icons //
+    // Initialize pieces, its icons and its positions
     public void initializePiece(String pieceType, int x, int y, char status, char side, String imagePath) {
         Piece piece=CreatePiece.createPiece(pieceType, x, y, status, side);
         PieceIcon pieceIcon=new PieceIcon(piece, PieceIcon.getImage(imagePath));
@@ -35,7 +35,6 @@ public class GameControl {
         setPieceAtTile(piece);
     }
 
-    // Turn methods Start //
     public int getTurnNumber(){
         return turnCount;
     }
@@ -44,12 +43,23 @@ public class GameControl {
         return whoseTurn;
     }
 
+    // if clicked piece's side is equal to the whoseTurn
     public boolean checkValidTurn(Piece p){
         if(p.getSide()==getWhoseTurn()){
             return true;
         }else{return false;}
     }
+
+    // deal with multiple clicking instances
+    public void verifyValidTurn(int x, int y){
+        if(Piece.piecePositions[x][y]==null){
+            System.out.println("Empty Tile");
+        }else if(checkValidTurn(Piece.piecePositions[x][y])){
+            selectPiece(Piece.piecePositions[x][y]);
+        }else{System.out.println("Not your turn");}
+    }
     
+    // change side after each turn and check for possible piece swapping
     public void updateTurn(){
         if(whoseTurn=='Y'){
             whoseTurn='B';
@@ -74,25 +84,19 @@ public class GameControl {
         }
     }
 
+    // logging and debugging
     public void printSelectedPiece(){
         System.out.println("Current selected piece is: " + Piece.selectedPiece);
 
     }
 
-    public void verifyValidTurn(int x, int y){
-        if(Piece.piecePositions[x][y]==null){
-            System.out.println("Empty Tile");
-        }else if(checkValidTurn(Piece.piecePositions[x][y])){
-            selectPiece(Piece.piecePositions[x][y]);
-        }else{System.out.println("Not your turn");}
-    }
 
     public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
 
         System.out.println("\n+-+-+-+-+-+-+\nTile clicked!");
         System.out.println("Turn number " + turnCount + "\n");
 
-        if(Piece.selectedPiece==null){
+        if(Piece.selectedPiece==null){ // if no selected piece then select the clicked piece
             verifyValidTurn(x, y);
             printSelectedPiece();
             return;
@@ -105,7 +109,7 @@ public class GameControl {
             return;
         }
 
-        movePieces(x, y, Piece.selectedPiece);
+        movePieces(x, y, Piece.selectedPiece); // move da pieces
         printSelectedPiece();
     }
 
@@ -114,19 +118,21 @@ public class GameControl {
     }
 
     public void removePieceFromTile(Piece p){
-        Piece.piecePositions[p.getPosX()][p.getPosY()]=null;
-        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(null);
+        Piece.piecePositions[p.getPosX()][p.getPosY()]=null; // set the coordinate/tile to null
+        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(null); // set icon at tile to null
     }
 
     public void setPiecesIcon(Piece p){
         Tile.tiles[p.getPosX()][p.getPosY()].setIcon(pieceIconMap.get(p).getImg());
     }
     
+    // automatically sets the position based on the pieces position
     public void setPieceAtTile(Piece p){
         Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
         setPiecesIcon(p);  
     }  
     
+    // if dead remove piece from the board
     public void checkStatus(Piece p){
         if(p.getStatus()=='D'){
             removePieceFromTile(p);
@@ -138,14 +144,14 @@ public class GameControl {
 
             System.out.println("Placed piece.");
 
-            if(Piece.piecePositions[x][y]!=null){
+            if(Piece.piecePositions[x][y]!=null){ // if the destination ada other piece
                 System.out.println("Ate a piece! The piece "+Piece.piecePositions[x][y]+"'s status is DEAD: " + Piece.piecePositions[x][y].getStatus());
                 checkStatus(Piece.piecePositions[x][y]);
             }
 
-            removePieceFromTile(p);
-            p.setPosXY(x, y);
-            setPieceAtTile(p);
+            removePieceFromTile(p); // remove piece
+            p.setPosXY(x, y); // set new xy for the piece
+            setPieceAtTile(p); //set piece at new tile
 
             Piece.selectedPiece=null;
             updateTurn();

@@ -4,6 +4,7 @@
 public class Main {
     public static void main(String[] args) {
         GameControl controller = new GameControl();
+        new Board(controller);
 
         controller.initializePiece("PlusPiece", 5, 0, 'A', 'Y', "piecesPics/yellowPlus.png");
         controller.initializePiece("PlusPiece", 5, 6, 'A', 'Y', "piecesPics/yellowPlus.png");
