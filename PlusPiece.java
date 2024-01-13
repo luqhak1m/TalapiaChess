@@ -7,6 +7,8 @@ public class PlusPiece extends Piece{
         super(x, y, st, si);   
     }
 
+    // Test move on fake rules. Remove if necessary.
+
     @Override
     public boolean validMove(int newX, int newY) {
 
