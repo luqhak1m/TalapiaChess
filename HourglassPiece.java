@@ -1,12 +1,17 @@
 public class HourglassPiece extends Piece{
 
-    public HourglassPiece(int x, int y) {
-        super(x, y);
+    public HourglassPiece(int x, int y, char st, char si) {
+        super(x, y, st, si);
     }
 
     @Override
-    public void printSomething() {
-        System.out.println("I am hourglass");
+    public boolean validMove(int newX, int newY) {
+        return true;
     }
-    
+
+    @Override
+    public boolean skipPiece(int newX, int newY) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'skipPiece'");
+    }
 }
