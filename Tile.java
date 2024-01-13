@@ -19,4 +19,11 @@ public class Tile extends JButton{
             }
         });          
     }
+
+    public static int getxCoord(int x, int y){
+        return tiles[x][y].xCoord;
+    }
+    public static int getyCoord(int x, int y){
+        return Tile.tiles[x][y].yCoord;
+    }
 }
