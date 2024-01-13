@@ -35,6 +35,27 @@ public class GameControl {
         setPieceAtTile(piece);
     }
 
+    public void instantiatePieces(){
+        initializePiece("PlusPiece", 5, 0, 'A', 'Y', "piecesPics/yellowPlus.png");
+        initializePiece("PlusPiece", 5, 6, 'A', 'Y', "piecesPics/yellowPlus.png");
+        initializePiece("PlusPiece", 0, 0, 'A', 'B', "piecesPics/bluePlus.png");
+        initializePiece("PlusPiece", 0, 6, 'A', 'B', "piecesPics/bluePlus.png");
+        initializePiece("HourglassPiece", 5, 1, 'A', 'Y', "piecesPics/yellowHourglass.png");
+        initializePiece("HourglassPiece", 5, 5, 'A', 'Y', "piecesPics/yellowHourglass.png");
+        initializePiece("HourglassPiece", 0, 1, 'A', 'B', "piecesPics/blueHourglass.png");
+        initializePiece("HourglassPiece", 0, 5, 'A', 'B', "piecesPics/blueHourglass.png");
+        initializePiece("TimePiece", 5, 2, 'A', 'Y', "piecesPics/yellowTime.png");
+        initializePiece("TimePiece", 5, 4, 'A', 'Y', "piecesPics/yellowTime.png");
+        initializePiece("TimePiece", 0, 2, 'A', 'B', "piecesPics/blueTime.png");
+        initializePiece("SunPiece", 0, 3, 'A', 'B', "piecesPics/blueSun.png");
+        initializePiece("TimePiece", 0, 4, 'A', 'B', "piecesPics/blueTime.png");
+        initializePiece("SunPiece", 5, 3, 'A', 'Y', "piecesPics/yellowSun.png");
+        for (int column = 0; column < 7; column++) {
+            initializePiece("PointPiece", 4, column, 'A', 'Y', "piecesPics/yellowArrow.png");
+            initializePiece("PointPiece", 1, column, 'A', 'B', "piecesPics/blueArrow.png");
+        }   
+    }
+
     public int getTurnNumber(){
         return turnCount;
     }
@@ -89,7 +110,6 @@ public class GameControl {
         System.out.println("Current selected piece is: " + Piece.selectedPiece);
 
     }
-
 
     public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
 
