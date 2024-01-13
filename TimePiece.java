@@ -1,3 +1,6 @@
+
+// Model
+
 public class TimePiece extends Piece{
 
     public TimePiece(int x, int y, char st, char si) {

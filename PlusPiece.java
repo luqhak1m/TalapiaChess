@@ -1,3 +1,6 @@
+
+// Model
+
 public class PlusPiece extends Piece{
 
     public PlusPiece(int x, int y, char st, char si) {

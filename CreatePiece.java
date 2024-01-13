@@ -1,5 +1,6 @@
 
-// factory method
+// Factory method
+
 public class CreatePiece{
     public static Piece createPiece(String type, int x, int y, char status, char side){
         switch(type){

@@ -1,3 +1,6 @@
+
+// Model
+
 public abstract class Piece{
 
     private int posX, posY;

@@ -1,3 +1,6 @@
+
+// Model
+
 public class HourglassPiece extends Piece{
 
     public HourglassPiece(int x, int y, char st, char si) {
