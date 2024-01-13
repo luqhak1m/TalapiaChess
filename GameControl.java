@@ -1,10 +1,18 @@
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class GameControl {
     private int turnCount=0;
     private char whoseTurn='Y';
-    
+    private Map<Class<? extends Piece>, SwappingPieceInfo> swapPieceMap=new HashMap<>();
+
+    public GameControl(){
+        swapPieceMap.put(TimePiece.class, new SwappingPieceInfo(PlusPiece.class, "piecesPics/yellowPlus.png", "piecesPics/bluePlus.png"));
+        swapPieceMap.put(PlusPiece.class, new SwappingPieceInfo(TimePiece.class, "piecesPics/yellowTime.png", "piecesPics/blueTime.png"));
+        swapPieceMap.put(SunPiece.class, new SwappingPieceInfo(PointPiece.class, "piecesPics/yellowArrow.png", "piecesPics/blueArrow.png"));
+    }
+
     // Mapping methods Start //
     
     private HashMap<Piece, PieceIcon> pieceIconMap = new HashMap<>();
@@ -53,21 +61,12 @@ public class GameControl {
     public void swapPieces(){
         for(int i=0; i<Piece.row; i++){
             for(int j=0; j<Piece.column; j++){
-                if(Piece.piecePositions[i][j] instanceof TimePiece){
-                    System.out.println("Swapping Time with Plus at coordinate " + i + ", " + j);
-                    char sidePlaceholder=Piece.piecePositions[i][j].getSide();
-                    removePieceFromTile(Piece.piecePositions[i][j]);
-                    if(sidePlaceholder=='Y'){
-                        initializePiece("PlusPiece", i, j, 'A', sidePlaceholder, "piecesPics/yellowPlus.png");
-                    }else{initializePiece("PlusPiece", i, j, 'A', sidePlaceholder, "piecesPics/bluePlus.png");}
-                }
-                else if(Piece.piecePositions[i][j] instanceof PlusPiece){
-                    System.out.println("Swapping Plus with Time at coordinate " + i + ", " + j);
-                    char sidePlaceholder=Piece.piecePositions[i][j].getSide();
-                    removePieceFromTile(Piece.piecePositions[i][j]);
-                    if(sidePlaceholder=='Y'){
-                        initializePiece("TimePiece", i, j, 'A', sidePlaceholder, "piecesPics/yellowTime.png");
-                    }else{initializePiece("TimePiece", i, j, 'A', sidePlaceholder, "piecesPics/blueTime.png");}
+                Piece currentPiece=Piece.piecePositions[i][j];
+                if(currentPiece!=null && swapPieceMap.containsKey(currentPiece.getClass())){ // if it's a subclass of the mapped object
+                    SwappingPieceInfo toBeSwapped=swapPieceMap.get(currentPiece.getClass()); // get the mapped object
+                    String imagePath=(currentPiece.getSide()=='Y') ? toBeSwapped.getYellow():toBeSwapped.getBlue();
+                    removePieceFromTile(currentPiece);
+                    initializePiece(toBeSwapped.getPieceType().getSimpleName(), i, j, 'A', currentPiece.getSide(), imagePath);
                 }
             }
         }
