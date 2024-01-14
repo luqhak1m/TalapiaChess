@@ -6,8 +6,8 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 
 public class PieceIcon {
-    private Piece piece;
-    private ImageIcon pieceImage;
+    private Class<? extends Piece> pieceClass;
+    private ImageIcon yellowImage, blueImage;
 
     public static ImageIcon getImage(String path){
         ImageIcon pieceImage = new ImageIcon(path);
@@ -18,15 +18,27 @@ public class PieceIcon {
         return pieceImage;
     }
 
-    public Piece getPiece(){
-        return this.piece;
+    public Class<? extends Piece> getPiece(){
+        return this.pieceClass;
     }
-    public ImageIcon getImg(){
-        return this.pieceImage;
+    public ImageIcon getYellowImg(){
+        return this.yellowImage;
+    }
+    public ImageIcon getBlueImg(){
+        return this.blueImage;
+    }
+    
+    public ImageIcon getIconImg(char side){
+        if(side=='Y'){
+            return this.yellowImage;
+        }
+        return this.blueImage;
     }
 
-    public PieceIcon(Piece p, ImageIcon img){
-        this.piece=p;
-        this.pieceImage=img;
+
+    public PieceIcon(Class<? extends Piece> p, ImageIcon yImg, ImageIcon bImg){
+        this.pieceClass=p;
+        this.yellowImage=yImg;
+        this.blueImage=bImg;
     }
 }

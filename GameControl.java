@@ -10,6 +10,15 @@ public class GameControl {
     private Map<Class<? extends Piece>, SwappingPieceInfo> swapPieceMap=new HashMap<>();
 
     public GameControl(){
+
+        pieceIconMap.putIfAbsent(PointPiece.class, new PieceIcon(PointPiece.class, PieceIcon.getImage("piecesPics/yellowArrow.png"), PieceIcon.getImage("piecesPics/blueArrow.png")));
+        pieceIconMap.putIfAbsent(PlusPiece.class, new PieceIcon(PlusPiece.class, PieceIcon.getImage("piecesPics/yellowPlus.png"), PieceIcon.getImage("piecesPics/bluePlus.png")));
+        pieceIconMap.putIfAbsent(TimePiece.class, new PieceIcon(TimePiece.class, PieceIcon.getImage("piecesPics/yellowTime.png"), PieceIcon.getImage("piecesPics/blueTime.png")));
+        pieceIconMap.putIfAbsent(HourglassPiece.class, new PieceIcon(HourglassPiece.class, PieceIcon.getImage("piecesPics/yellowHourglass.png"), PieceIcon.getImage("piecesPics/blueHourglass.png")));
+        pieceIconMap.putIfAbsent(SunPiece.class, new PieceIcon(SunPiece.class, PieceIcon.getImage("piecesPics/yellowSun.png"), PieceIcon.getImage("piecesPics/blueSun.png")));
+
+        System.out.println(pieceIconMap);
+
         swapPieceMap.put(TimePiece.class, new SwappingPieceInfo(PlusPiece.class, "piecesPics/yellowPlus.png", "piecesPics/bluePlus.png"));
         swapPieceMap.put(PlusPiece.class, new SwappingPieceInfo(TimePiece.class, "piecesPics/yellowTime.png", "piecesPics/blueTime.png"));
         swapPieceMap.put(SunPiece.class, new SwappingPieceInfo(PointPiece.class, "piecesPics/yellowArrow.png", "piecesPics/blueArrow.png"));
@@ -17,42 +26,34 @@ public class GameControl {
 
     // mapping Pieces to its respective pieceIcons
     
-    private HashMap<Piece, PieceIcon> pieceIconMap = new HashMap<>();
-    
-    public void mapPiecesIcon(Piece p, PieceIcon pIcon){
-        pieceIconMap.putIfAbsent(p, pIcon);
-    }
-    
-    public HashMap<Piece, PieceIcon> getMap(){
-        return pieceIconMap;
-    }
+    private HashMap<Class<? extends Piece>, PieceIcon> pieceIconMap = new HashMap<>();
 
     // Initialize pieces, its icons and its positions
-    public void initializePiece(String pieceType, int x, int y, char status, char side, String imagePath) {
+    public void initializePiece(String pieceType, int x, int y, char status, char side) {
         Piece piece=CreatePiece.createPiece(pieceType, x, y, status, side);
-        PieceIcon pieceIcon=new PieceIcon(piece, PieceIcon.getImage(imagePath));
-        mapPiecesIcon(piece, pieceIcon);
+        // PieceIcon pieceIcon=new PieceIcon(piece.getClass(), PieceIcon.getImage(imagePath));
+        // mapPiecesIcon(piece.getClass());
         setPieceAtTile(piece);
     }
 
     public void instantiatePieces(){
-        initializePiece("PlusPiece", 5, 0, 'A', 'Y', "piecesPics/yellowPlus.png");
-        initializePiece("PlusPiece", 5, 6, 'A', 'Y', "piecesPics/yellowPlus.png");
-        initializePiece("PlusPiece", 0, 0, 'A', 'B', "piecesPics/bluePlus.png");
-        initializePiece("PlusPiece", 0, 6, 'A', 'B', "piecesPics/bluePlus.png");
-        initializePiece("HourglassPiece", 5, 1, 'A', 'Y', "piecesPics/yellowHourglass.png");
-        initializePiece("HourglassPiece", 5, 5, 'A', 'Y', "piecesPics/yellowHourglass.png");
-        initializePiece("HourglassPiece", 0, 1, 'A', 'B', "piecesPics/blueHourglass.png");
-        initializePiece("HourglassPiece", 0, 5, 'A', 'B', "piecesPics/blueHourglass.png");
-        initializePiece("TimePiece", 5, 2, 'A', 'Y', "piecesPics/yellowTime.png");
-        initializePiece("TimePiece", 5, 4, 'A', 'Y', "piecesPics/yellowTime.png");
-        initializePiece("TimePiece", 0, 2, 'A', 'B', "piecesPics/blueTime.png");
-        initializePiece("SunPiece", 0, 3, 'A', 'B', "piecesPics/blueSun.png");
-        initializePiece("TimePiece", 0, 4, 'A', 'B', "piecesPics/blueTime.png");
-        initializePiece("SunPiece", 5, 3, 'A', 'Y', "piecesPics/yellowSun.png");
+        initializePiece("PlusPiece", 5, 0, 'A', 'Y');
+        initializePiece("PlusPiece", 5, 6, 'A', 'Y');
+        initializePiece("PlusPiece", 0, 0, 'A', 'B');
+        initializePiece("PlusPiece", 0, 6, 'A', 'B');
+        initializePiece("HourglassPiece", 5, 1, 'A', 'Y');
+        initializePiece("HourglassPiece", 5, 5, 'A', 'Y');
+        initializePiece("HourglassPiece", 0, 1, 'A', 'B');
+        initializePiece("HourglassPiece", 0, 5, 'A', 'B');
+        initializePiece("TimePiece", 5, 2, 'A', 'Y');
+        initializePiece("TimePiece", 5, 4, 'A', 'Y');
+        initializePiece("TimePiece", 0, 2, 'A', 'B');
+        initializePiece("TimePiece", 0, 4, 'A', 'B');
+        initializePiece("SunPiece", 0, 3, 'A', 'B');
+        initializePiece("SunPiece", 5, 3, 'A', 'Y');
         for (int column = 0; column < 7; column++) {
-            initializePiece("PointPiece", 4, column, 'A', 'Y', "piecesPics/yellowArrow.png");
-            initializePiece("PointPiece", 1, column, 'A', 'B', "piecesPics/blueArrow.png");
+            initializePiece("PointPiece", 4, column, 'A', 'Y');
+            initializePiece("PointPiece", 1, column, 'A', 'B');
         }   
     }
 
@@ -96,10 +97,11 @@ public class GameControl {
             for(int j=0; j<Piece.column; j++){
                 Piece currentPiece=Piece.piecePositions[i][j];
                 if(currentPiece!=null && swapPieceMap.containsKey(currentPiece.getClass())){ // if it's a subclass of the mapped object
-                    SwappingPieceInfo toBeSwapped=swapPieceMap.get(currentPiece.getClass()); // get the mapped object
-                    String imagePath=(currentPiece.getSide()=='Y') ? toBeSwapped.getYellow():toBeSwapped.getBlue();
+                    SwappingPieceInfo toBeSwappedObj=swapPieceMap.get(currentPiece.getClass()); // get the mapped object
+                    Class<? extends Piece> toBeSwappedSubclass=toBeSwappedObj.getPieceType(); // get the subclass of the object
+                    Piece toBeSwapped=CreatePiece.createPiece(toBeSwappedSubclass.getSimpleName(), i, j, 'A', currentPiece.getSide());
                     removePieceFromTile(currentPiece);
-                    initializePiece(toBeSwapped.getPieceType().getSimpleName(), i, j, 'A', currentPiece.getSide(), imagePath);
+                    setPieceAtTile(toBeSwapped);
                 }
             }
         }
@@ -143,7 +145,7 @@ public class GameControl {
     }
 
     public void setPiecesIcon(Piece p){
-        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(pieceIconMap.get(p).getImg());
+        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(pieceIconMap.get(p.getClass()).getIconImg(p.getSide()));
     }
     
     // automatically sets the position based on the pieces position
