@@ -26,8 +26,6 @@ public class GameControl {
     // Initialize pieces, its icons and its positions
     public void initializePiece(String pieceType, int x, int y, char status, char side) {
         Piece piece=CreatePiece.createPiece(pieceType, x, y, status, side);
-        // PieceIcon pieceIcon=new PieceIcon(piece.getClass(), PieceIcon.getImage(imagePath));
-        // mapPiecesIcon(piece.getClass());
         setPieceAtTile(piece);
     }
 
