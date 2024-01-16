@@ -35,7 +35,6 @@ public class PieceIcon {
         return this.blueImage;
     }
 
-
     public PieceIcon(Class<? extends Piece> p, ImageIcon yImg, ImageIcon bImg){
         this.pieceClass=p;
         this.yellowImage=yImg;

@@ -6,6 +6,7 @@ public class Main {
         GameControl controller=new GameControl();
         Board board=new Board(controller);
         MainMenu mainMenu=new MainMenu(board);
+        
         mainMenu.displayMainMenu();
         controller.instantiatePieces();     
     }

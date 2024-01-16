@@ -16,7 +16,7 @@ public class GameControl {
         pieceIconMap.putIfAbsent(HourglassPiece.class, new PieceIcon(HourglassPiece.class, PieceIcon.getImage("piecesPics/yellowHourglass.png"), PieceIcon.getImage("piecesPics/blueHourglass.png")));
         pieceIconMap.putIfAbsent(SunPiece.class, new PieceIcon(SunPiece.class, PieceIcon.getImage("piecesPics/yellowSun.png"), PieceIcon.getImage("piecesPics/blueSun.png")));
 
-        swapPieceMapTest.put(SunPiece.class, PointPiece.class);
+        swapPieceMapTest.put(PointPiece.class, SunPiece.class);
     }
 
     // mapping Pieces to its respective pieceIcons
@@ -134,24 +134,13 @@ public class GameControl {
         Piece.piecePositions[p.getPosX()][p.getPosY()]=null; // set the coordinate/tile to null
         Tile.tiles[p.getPosX()][p.getPosY()].setIcon(null); // set icon at tile to null
     }
-
-    public void setPiecesIcon(Piece p){
-        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(pieceIconMap.get(p.getClass()).getIconImg(p.getSide()));
-    }
     
     // automatically sets the position based on the pieces position
     public void setPieceAtTile(Piece p){
         Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
-        setPiecesIcon(p);  
+        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(pieceIconMap.get(p.getClass()).getIconImg(p.getSide()));
     }  
     
-    // if dead remove piece from the board
-    public void checkStatus(Piece p){
-        if(p.getStatus()=='D'){
-            removePieceFromTile(p);
-        }
-    }
-
     public void movePieces(int x, int y, Piece p){ // this int x, int y is the destination X and Y
         if(p.validMove(x, y)){
 
@@ -159,8 +148,7 @@ public class GameControl {
 
             if(Piece.piecePositions[x][y]!=null){ // if the destination ada other piece
                 System.out.println("Ate a piece! The piece "+Piece.piecePositions[x][y]+"'s status is DEAD: " + Piece.piecePositions[x][y].getStatus());
-                checkStatus(Piece.piecePositions[x][y]);
-            }
+                removePieceFromTile(p);            }
 
             removePieceFromTile(p); // remove piece
             p.setPosXY(x, y); // set new xy for the piece
