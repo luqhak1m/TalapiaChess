@@ -31,8 +31,8 @@ public class PieceIcon {
     public ImageIcon getIconImg(char side){
         if(side=='Y'){
             return this.yellowImage;
-        }
-        return this.blueImage;
+        }else{
+        return this.blueImage;}
     }
 
     public PieceIcon(Class<? extends Piece> p, ImageIcon yImg, ImageIcon bImg){

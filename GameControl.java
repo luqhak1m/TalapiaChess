@@ -90,9 +90,10 @@ public class GameControl {
             for(int j=0; j<Piece.column; j++){
                 Piece currentPiece=Piece.piecePositions[i][j];
                 if(currentPiece!=null && swapPieceMapTest.containsKey(currentPiece.getClass())){ // if the piece's class is in the map of the pieces to be swapped
-                    Piece latestPiece=CreatePiece.createPiece(swapPieceMapTest.get(currentPiece.getClass()).getSimpleName(), i, j, 'A', currentPiece.getSide()); // create the new piece based on the map pairing
+                    char currentPieceSide=currentPiece.getSide();    
+                    System.out.println("Swapping piece at " + currentPiece.getPosX() + ", " + currentPiece.getPosY() + " is " + currentPieceSide);
                     removePieceFromTile(currentPiece);
-                    setPieceAtTile(latestPiece);
+                    initializePiece(swapPieceMapTest.get(currentPiece.getClass()).getSimpleName(), i, j, 'A', currentPieceSide);
                 }
             }
         }

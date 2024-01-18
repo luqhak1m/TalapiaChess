@@ -16,12 +16,6 @@ public abstract class Piece{
         this.status=st;
         this.side=si;
 
-        if(x==0||x==1){
-            this.side='B';
-        }else{
-            this.side='Y';
-        }
-
         piecePositions[x][y]=this;
     }
 
