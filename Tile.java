@@ -12,7 +12,7 @@ public class Tile extends JButton{
     public static Tile[][] tiles = new Tile[6][7];
 
     public Tile(int x, int y, GameControl c){
-        setBackground(new Color(139,68,19));
+        setBackground(new Color(255,255,255));
         setSize(200, 200);  
         this.xCoord=x;
         this.yCoord=y;     
