@@ -4,7 +4,7 @@ public class PlusPiece extends Piece {
     public PlusPiece(int x, int y, char st, char si) {
         super(x, y, st, si);
     }
-
+    
     // Check if the move to the new position is valid
     @Override
     public boolean validMove(int newX, int newY) {
