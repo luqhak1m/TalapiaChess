@@ -16,7 +16,8 @@ public class GameControl {
         pieceIconMap.putIfAbsent(HourglassPiece.class, new PieceIcon(HourglassPiece.class, PieceIcon.getImage("piecesPics/yellowHourglass.png"), PieceIcon.getImage("piecesPics/blueHourglass.png")));
         pieceIconMap.putIfAbsent(SunPiece.class, new PieceIcon(SunPiece.class, PieceIcon.getImage("piecesPics/yellowSun.png"), PieceIcon.getImage("piecesPics/blueSun.png")));
 
-        swapPieceMapTest.put(PointPiece.class, SunPiece.class);
+        swapPieceMapTest.put(PlusPiece.class, TimePiece.class);
+        swapPieceMapTest.put(TimePiece.class, PlusPiece.class);
     }
 
     // mapping Pieces to its respective pieceIcons
