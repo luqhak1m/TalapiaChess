@@ -9,19 +9,48 @@ public class PointPiece extends Piece {
         int deltaX = Math.abs(newX - getPosX());
         int deltaY = Math.abs(newY - getPosY());
         int forward = newX - getPosX();
+        int position = getPosX();
 
         // Ensure that the total movement is 1 or 2 tiles
         int totalMovement = deltaX;
         char turn = getSide();
     
         if (turn == 'Y') {
-            if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
-                return !skipPiece(newX, newY);
-            } else {
-                System.out.println("You can only move forward 1 or 2 tiles");
-                return false;
+            if (position == 0) {
+                System.out.println("You can now move only backwards");
+                while (position != 5) {
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
+                        return !skipPiece(newX, newY);
+                    } else {
+                        System.out.println("You can only move backwards 1 or 2 tiles");
+                        return false;
+                    }
+                    
+                }
+                return true;
+            }
+            else{
+                if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+                    return !skipPiece(newX, newY);
+                } else {
+                    System.out.println("You can only move forward 1 or 2 tiles");
+                    return false;
+                }
             }
         } else {
+            if (position == 5) {
+                System.out.println("You can now move only backwards");
+                while (position != 0) {
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+                        return !skipPiece(newX, newY);
+                    } else {
+                        System.out.println("You can only move backwards 1 or 2 tiles");
+                        return false;
+                    }
+                    
+                }
+                return true;
+            }
             if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
                 return !skipPiece(newX, newY);
             } else {
