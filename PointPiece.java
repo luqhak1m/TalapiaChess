@@ -1,4 +1,8 @@
 public class PointPiece extends Piece {
+    
+    //Reversed when piece reached the end of the board
+    private boolean reversedY = false;
+    private boolean reversedB = false;
 
     public PointPiece(int x, int y, char st, char si) {
         super(x, y, st, si);
@@ -10,52 +14,85 @@ public class PointPiece extends Piece {
         int deltaY = Math.abs(newY - getPosY());
         int forward = newX - getPosX();
         int position = getPosX();
-
-        // Ensure that the total movement is 1 or 2 tiles
-        int totalMovement = deltaX;
         char turn = getSide();
-    
+
+        // Ensure that the total movement is 1 or 2 tiles in a straight line vertically
+        int totalMovement = deltaX;
+        
+
+        //Yellow's Turn
         if (turn == 'Y') {
-            if (position == 0) {
-                System.out.println("You can now move only backwards");
-                while (position != 5) {
+            if (reversedY) {
+                if (position == 5) {
+                    reversedY = false;      //Yellow reached the end of the board, switch direction
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+                        return !skipPiece(newX, newY);
+                    } else {
+                        System.out.println("You can only move forward 1 or 2 tiles");
+                        return false;
+                    }
+                } else {
                     if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
                         return !skipPiece(newX, newY);
                     } else {
-                        System.out.println("You can only move backwards 1 or 2 tiles");
+                        System.out.println("You can only move backward 1 or 2 tiles");
+                        return false;
+                    }
+                }
+            } else {
+                if (position == 0) {
+                    reversedY = true;   //Yellow reached the end of the board, switch direction
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
+                        return !skipPiece(newX, newY);
+                    } else {
+                        System.out.println("You can only move backward 1 or 2 tiles");
                         return false;
                     }
                     
-                }
-                return true;
-            }
-            else{
-                if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+                } else if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
                     return !skipPiece(newX, newY);
                 } else {
                     System.out.println("You can only move forward 1 or 2 tiles");
                     return false;
                 }
             }
-        } else {
-            if (position == 5) {
-                System.out.println("You can now move only backwards");
-                while (position != 0) {
-                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+        } 
+        
+        //Blue's Turn
+        else {
+            if (reversedB) {
+                if (position == 0) {
+                    reversedB = false;  //Blue reached the end of the board, switch direction
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
                         return !skipPiece(newX, newY);
                     } else {
-                        System.out.println("You can only move backwards 1 or 2 tiles");
+                        System.out.println("You can only move forward 1 or 2 tiles");
                         return false;
                     }
                     
+                } else {
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+                        return !skipPiece(newX, newY);
+                    } else {
+                        System.out.println("You can only move backward 1 or 2 tiles");
+                        return false;
+                    }
                 }
-                return true;
-            }
-            if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
-                return !skipPiece(newX, newY);
             } else {
-                System.out.println("You can only move forward 1 or 2 tiles");
-                return false;
+                if (position == 5) {
+                    reversedB = true;       //Blue reached the end of the board, switch direction
+                    if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
+                        return !skipPiece(newX, newY);
+                    } else {
+                        System.out.println("You can only move backward 1 or 2 tiles");
+                        return false;
+                    }
+                } else if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
+                    return !skipPiece(newX, newY);
+                } else {
+                    System.out.println("You can only move forward 1 or 2 tiles");
+                    return false;
+                }
             }
         }
     }
@@ -87,5 +124,6 @@ public class PointPiece extends Piece {
         }
 
         return false;
-    }
-}
+        }
+    }   
+
