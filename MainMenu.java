@@ -50,7 +50,7 @@ public class MainMenu extends JFrame{
     }
 
     public void startNewGame(){
-        setVisible(false);
-        board.setVisible(true);
+        this.setVisible(false);
+        board.displayBoard();
     }
 }
