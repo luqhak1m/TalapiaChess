@@ -1,4 +1,3 @@
-
 // Model
 
 public class SunPiece extends Piece{
@@ -9,15 +8,18 @@ public class SunPiece extends Piece{
 
     @Override
     public boolean validMove(int newX, int newY) {
-        if(!emptyTile(newX, newY)){
-            return true;
-        }
-        return false;
+
+        int distanceX=Math.abs(this.getPosX()+newX);
+        int distanceY=Math.abs(this.getPosY()+newY);
+
+        if(distanceX<=1&&distanceY<=1){
+            return !skipPiece(newX, newY);
+        }else{return false;}
+
     }
 
     @Override
     public boolean skipPiece(int newX, int newY) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'skipPiece'");
+        return false;
     }
 }
