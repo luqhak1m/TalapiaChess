@@ -1,21 +1,19 @@
 
 // Factory method
 
+import java.util.Map;
+
 public class CreatePiece{
+
+    private static final Map<String, PieceMaker> pieceInstanceMap=Map.of(
+        "PlusPiece", PlusPiece::new, // "PlusPiece" will hold an object of PlusPiece
+        "TimePiece", TimePiece::new, // vv
+        "SunPiece", SunPiece::new,
+        "HourglassPiece", HourglassPiece::new,
+        "PointPiece", PointPiece::new
+    );
+
     public static Piece createPiece(String type, int x, int y, char status, char side){
-        switch(type){
-            case "PlusPiece":
-                return new PlusPiece(x, y, status, side);
-            case "TimePiece":
-                return new TimePiece(x, y, status, side);
-            case "SunPiece":
-                return new SunPiece(x, y, status, side);
-            case "HourglassPiece":
-                return new HourglassPiece(x, y, status, side);
-            case "PointPiece":
-                return new PointPiece(x, y, status, side);
-            default: 
-                throw new IllegalArgumentException(type + " is not a valid piece");
-        }
+        return pieceInstanceMap.get(type).makePiece(x, y, status, side);
     }
 }
