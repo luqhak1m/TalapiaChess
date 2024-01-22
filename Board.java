@@ -9,11 +9,11 @@ public class Board extends JFrame{
 
     JPanel gameBoard = new JPanel(new GridLayout (6,7));
 
-    public Board(GameControl c){
+    public Board(){
 
         for(int i=0; i<6; i++){
             for(int j=0; j<7; j++){
-                    Tile.tiles[i][j] = new Tile(i, j, c);
+                    Tile.tiles[i][j] = new Tile(i, j);
                     gameBoard.add(Tile.tiles[i][j]);
             }
         }

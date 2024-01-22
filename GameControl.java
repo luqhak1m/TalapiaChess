@@ -3,6 +3,7 @@
 
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.event.*;
 
 public class GameControl {
     private int turnCount=0;
@@ -10,6 +11,18 @@ public class GameControl {
     private Map<Class<? extends Piece>, Class<? extends Piece>> swapPieceMapTest=new HashMap<>();
 
     public GameControl(){
+
+        for(int i=0; i<Piece.row; i++){
+            for(int j=0; j<Piece.column; j++){
+                Tile tile=Tile.tiles[i][j];
+                tile.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e){
+                        clickTile(tile.xCoord, tile.yCoord);
+                    }
+                });
+            }
+        }
+
         pieceIconMap.putIfAbsent(PointPiece.class, new PieceIcon(PointPiece.class, PieceIcon.getImage("piecesPics/yellowArrow.png"), PieceIcon.getImage("piecesPics/blueArrow.png")));
         pieceIconMap.putIfAbsent(PlusPiece.class, new PieceIcon(PlusPiece.class, PieceIcon.getImage("piecesPics/yellowPlus.png"), PieceIcon.getImage("piecesPics/bluePlus.png")));
         pieceIconMap.putIfAbsent(TimePiece.class, new PieceIcon(TimePiece.class, PieceIcon.getImage("piecesPics/yellowTime.png"), PieceIcon.getImage("piecesPics/blueTime.png")));

@@ -3,7 +3,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 public class Tile extends JButton{
 
@@ -11,16 +10,11 @@ public class Tile extends JButton{
     
     public static Tile[][] tiles = new Tile[6][7];
 
-    public Tile(int x, int y, GameControl c){
+    public Tile(int x, int y){
         setBackground(new Color(255,255,255));
         setSize(200, 200);  
         this.xCoord=x;
-        this.yCoord=y;     
-        this.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e){
-                c.clickTile(xCoord, yCoord);
-            }
-        });          
+        this.yCoord=y;              
     }
 
     public static int getxCoord(int x, int y){

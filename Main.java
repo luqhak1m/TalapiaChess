@@ -3,11 +3,12 @@
 
 public class Main {
     public static void main(String[] args) {
-        GameControl controller=new GameControl();
-        Board board=new Board(controller);
+        Board board=new Board();
         MainMenu mainMenu=new MainMenu(board);
         
         mainMenu.displayMainMenu();
+
+        GameControl controller=new GameControl();
         controller.instantiatePieces();     
     }
 }
