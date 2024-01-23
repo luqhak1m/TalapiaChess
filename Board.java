@@ -11,7 +11,7 @@ public class Board extends JFrame{
     private JPanel gamePanel;
     private static Board theBoard;
     private Dimension originalSize;
-    private int width = 900;
+    private int width = 1000;
     private int height = 800;
 
     private Board(){
