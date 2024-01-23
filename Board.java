@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Board extends JFrame{
 
@@ -33,6 +35,7 @@ public class Board extends JFrame{
         sideBar.add(saveGame);
         sideBar.add(exitGame);
         sideBar.setSize(100, gamePanel.getHeight());
+        sideBar.setVisible(true);
         add(gamePanel, BorderLayout.CENTER);
         add(sideBar, BorderLayout.EAST);
         
@@ -46,6 +49,23 @@ public class Board extends JFrame{
            }
         });
 
+        saveGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add your save game logic here
+                JOptionPane.showMessageDialog( Board.this, "Game saved!");
+            }
+        });
+
+        exitGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add your exit game logic here
+                System.exit(0);
+            }
+        });
+
+
         setSize(width,height);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -54,6 +74,8 @@ public class Board extends JFrame{
     public void resizeToOriginal() {
         int x = getWidth();
         int y = getHeight();
+        int newX = width;
+        int newY = height;
 
         if ((x > 0 && x < 400) || (y > 0 && y < 200)) {
             setSize(400, 200);
@@ -67,7 +89,14 @@ public class Board extends JFrame{
         else if ((x > 800 && x < 1550) || (y > 600 && y < 800))  {
             setSize(1000, 800);
         }
+        
+        if ((newX != x) || (newY != y)){
+            JOptionPane.showMessageDialog(this, "Frame Size Optimized!");   
+          }
+        
     }
+
+    
 
     public static Board getBoard(){
         if(theBoard==null){theBoard=new Board();}
