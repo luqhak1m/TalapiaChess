@@ -4,16 +4,25 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+
 
 public class GameControl {
+    Board board=Board.getBoard();
     private int turnCount=0;
+    private char yellow='Y', blue='B';
     private char whoseTurn='Y';
     private Map<Class<? extends Piece>, Class<? extends Piece>> swapPieceMapTest=new HashMap<>();
+    private HashMap<Class<? extends Piece>, PieceIcon> pieceIconMap = new HashMap<>();
 
     public GameControl(){
 
-        for(int i=0; i<Piece.row; i++){
-            for(int j=0; j<Piece.column; j++){
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
                 Tile tile=Tile.tiles[i][j];
                 tile.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e){
@@ -22,7 +31,7 @@ public class GameControl {
                 });
             }
         }
-
+         
         pieceIconMap.putIfAbsent(PointPiece.class, new PieceIcon(PointPiece.class, PieceIcon.getImage("piecesPics/yellowArrow.png"), PieceIcon.getImage("piecesPics/blueArrow.png")));
         pieceIconMap.putIfAbsent(PlusPiece.class, new PieceIcon(PlusPiece.class, PieceIcon.getImage("piecesPics/yellowPlus.png"), PieceIcon.getImage("piecesPics/bluePlus.png")));
         pieceIconMap.putIfAbsent(TimePiece.class, new PieceIcon(TimePiece.class, PieceIcon.getImage("piecesPics/yellowTime.png"), PieceIcon.getImage("piecesPics/blueTime.png")));
@@ -33,9 +42,7 @@ public class GameControl {
         swapPieceMapTest.put(TimePiece.class, PlusPiece.class);
     }
 
-    // mapping Pieces to its respective pieceIcons
-    
-    private HashMap<Class<? extends Piece>, PieceIcon> pieceIconMap = new HashMap<>();
+
 
     // Initialize pieces, its icons and its positions
     public void initializePiece(String pieceType, int x, int y, char status, char side) {
@@ -43,7 +50,7 @@ public class GameControl {
         setPieceAtTile(piece);
     }
 
-    public void instantiatePieces(){
+    public void instantiatePieces(){ // create the piece and put it on the board
         initializePiece("PlusPiece", 5, 0, 'A', 'Y');
         initializePiece("PlusPiece", 5, 6, 'A', 'Y');
         initializePiece("PlusPiece", 0, 0, 'A', 'B');
@@ -62,6 +69,9 @@ public class GameControl {
             initializePiece("PointPiece", 4, column, 'A', 'Y');
             initializePiece("PointPiece", 1, column, 'A', 'B');
         }   
+
+        setRotationStatus();
+        rotateDaPiece();
     }
 
     public int getTurnNumber(){
@@ -90,18 +100,73 @@ public class GameControl {
     
     // change side after each turn and check for possible piece swapping
     public void updateTurn(){
-        if(whoseTurn=='Y'){
-            whoseTurn='B';
-        }else{whoseTurn='Y';}
+
+        if(whoseTurn=='B'){whoseTurn='Y';}else{whoseTurn='B';}
+        
         turnCount++;
+
         if(turnCount%4==0){
             swapPieces();
+        }
+
+        setRotationStatus();
+
+        System.out.println("Flipping Board...");
+        board.flipBoard();
+        System.out.println("Rotating Icon...");
+        rotateDaPiece();
+    }
+
+    public void setRotationStatus(){
+        System.out.println("checking rotation ");
+
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+
+                Piece piece=Piece.piecePositions[i][j];
+                // PointPiece pointPiece=null;
+
+                if(piece!=null){
+                    
+                    if(piece.getSide()!=whoseTurn){ // if it's not the pieces' turn rotate the icon
+                        Tile.getTileAtCoordinate(i, j).setRotation(true);
+                    }else{
+                        Tile.getTileAtCoordinate(i, j).setRotation(false);
+                    }
+
+                    if(piece instanceof PointPiece){
+                        PointPiece pointPiece=(PointPiece) piece;
+                        if(pointPiece.getReversedB()||pointPiece.getReversedY()){
+                            Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
+                            Tile.getTileAtCoordinate(i, j).setRotation(true);
+                            System.out.println("Reached end of board. Tile " + Tile.tiles[i][j].getxCoord(i, j) + ", " + Tile.tiles[i][j].getyCoord(i, j) + "'s rotation status is " + Tile.getTileAtCoordinate(i, j).getRotationStatus());
+                        }
+
+                    }
+                    //System.out.println("Done Checking. Tile " + Tile.tiles[i][j].getxCoord(i, j) + ", " + Tile.tiles[i][j].getyCoord(i, j) + "'s rotation status is " + Tile.getTileAtCoordinate(i, j).getRotationStatus());
+                }
+            }
+        }
+    }
+
+    public void rotateDaPiece(){
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){
+                    System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is rotating");
+                    // Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
+                }
+                else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
+                    System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is set to default");
+                    // Tile.getTileAtCoordinate(i, j).setIcon(pieceIconMap.get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
+                }
+            }
         }
     }
 
     public void swapPieces(){
-        for(int i=0; i<Piece.row; i++){
-            for(int j=0; j<Piece.column; j++){
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
                 Piece currentPiece=Piece.piecePositions[i][j];
                 if(currentPiece!=null && swapPieceMapTest.containsKey(currentPiece.getClass())){ // if the piece's class is in the map of the pieces to be swapped
                     char currentPieceSide=currentPiece.getSide();    
@@ -121,8 +186,9 @@ public class GameControl {
 
     public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
 
-        System.out.println("\n+-+-+-+-+-+-+\nTile clicked!");
+        System.out.println("\n+-+-+-+-+-+-+\nTile " + x + ", " + y + " clicked!");
         System.out.println("Turn number " + turnCount + "\n");
+        System.out.println("Tile rotation status is " + Tile.tiles[x][y].getRotationStatus());
 
         if(Piece.selectedPiece==null){ // if no selected piece then select the clicked piece
             verifyValidTurn(x, y);
@@ -171,7 +237,6 @@ public class GameControl {
 
             Piece.selectedPiece=null;
             updateTurn();
-
         }else{
             System.out.println("invalid move bb");
         }

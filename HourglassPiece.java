@@ -20,7 +20,7 @@ public class HourglassPiece extends Piece{
     @Override
     public boolean skipPiece(int newX, int newY) {
         //check if next coordinates are within the board bounds
-        if (newX < 0 || newX >= Piece.row || newY < 0 || newY >= Piece.column) {
+        if (newX < 0 || newX >= Board.row || newY < 0 || newY >= Board.column) {
             return false;
         }
 

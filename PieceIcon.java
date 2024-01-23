@@ -6,6 +6,7 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 
 public class PieceIcon {
+    
     private Class<? extends Piece> pieceClass;
     private ImageIcon yellowImage, blueImage;
 

@@ -4,10 +4,9 @@
 public abstract class Piece{
 
     private int posX, posY;
-    static int row=6, column=7;
     private char side, status;
     static Piece selectedPiece=null;
-    static Piece piecePositions[][]=new Piece[row][column];
+    static Piece piecePositions[][]=new Piece[Board.row][Board.column];
 
     public Piece(int x, int y, char st, char si){
 
@@ -37,15 +36,8 @@ public abstract class Piece{
         this.posY=y;
     }
 
-    public boolean emptyTile(int x, int y){
-        return Tile.tiles[x][y]==null;
-    }
-
     public void setStatusDead(){
         this.status='D';
-    }
-    public void setStatusAlive(){
-        this.status=1;
     }
 
     public abstract boolean validMove(int newX, int newY);

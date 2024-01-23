@@ -8,6 +8,14 @@ public class PointPiece extends Piece {
         super(x, y, st, si);
     }
 
+    public boolean getReversedY(){
+        return reversedY;
+    }
+
+    public boolean getReversedB(){
+        return reversedB;
+    }
+
     @Override
     public boolean validMove(int newX, int newY) {
         int deltaX = Math.abs(newX - getPosX());
