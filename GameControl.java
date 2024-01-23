@@ -137,7 +137,7 @@ public class GameControl {
                     if(piece instanceof PointPiece){
                         PointPiece pointPiece=(PointPiece) piece;
                         if(pointPiece.getReversedB()||pointPiece.getReversedY()){
-                            Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
+                            // Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
                             Tile.getTileAtCoordinate(i, j).setRotation(true);
                             System.out.println("Reached end of board. Tile " + Tile.tiles[i][j].getxCoord(i, j) + ", " + Tile.tiles[i][j].getyCoord(i, j) + "'s rotation status is " + Tile.getTileAtCoordinate(i, j).getRotationStatus());
                         }
@@ -154,11 +154,11 @@ public class GameControl {
             for(int j=0; j<Board.column; j++){
                 if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){
                     System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is rotating");
-                    // Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
+                    Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
                 }
                 else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
                     System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is set to default");
-                    // Tile.getTileAtCoordinate(i, j).setIcon(pieceIconMap.get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
+                    Tile.getTileAtCoordinate(i, j).setIcon(pieceIconMap.get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
                 }
             }
         }
