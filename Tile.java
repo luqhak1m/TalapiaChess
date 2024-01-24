@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 public class Tile extends JButton{
 
     private boolean amIRotated=false;
-    private ImageIcon defaultImage=null;
     int xCoord, yCoord;
     
     public static Tile[][] tiles = new Tile[Board.row][Board.column];

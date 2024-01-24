@@ -4,18 +4,15 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.*;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 
 
 public class GameControl {
     Board board=Board.getBoard();
+
+    private CurrentState currentState;
     private int turnCount=0;
-    private char yellow='Y', blue='B';
-    private char whoseTurn='Y';
+    private char sideA='Y', sideB='B';
+    private char whoseTurn=sideA;
     private Map<Class<? extends Piece>, Class<? extends Piece>> swapPieceMapTest=new HashMap<>();
     private HashMap<Class<? extends Piece>, PieceIcon> pieceIconMap = new HashMap<>();
 
@@ -31,6 +28,27 @@ public class GameControl {
                 });
             }
         }
+
+        board.getSaveButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentState=new CurrentState("chess_save.txt");
+                setState(currentState);
+                currentState.saveState();
+                // JOptionPane.showMessageDialog( Board.this, "Game saved!");
+            }
+        });
+
+        board.getSavedFiles().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(currentState!=null){
+                    
+                    System.out.println(currentState.getSavedStates());
+                }
+                // JOptionPane.showMessageDialog( Board.this, "Game saved!");
+            }
+        });
          
         pieceIconMap.putIfAbsent(PointPiece.class, new PieceIcon(PointPiece.class, PieceIcon.getImage("piecesPics/yellowArrow.png"), PieceIcon.getImage("piecesPics/blueArrow.png")));
         pieceIconMap.putIfAbsent(PlusPiece.class, new PieceIcon(PlusPiece.class, PieceIcon.getImage("piecesPics/yellowPlus.png"), PieceIcon.getImage("piecesPics/bluePlus.png")));
@@ -153,11 +171,11 @@ public class GameControl {
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){
                 if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){
-                    System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is rotating");
+                    // System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is rotating");
                     Tile.getTileAtCoordinate(i, j).rotateIcon(Piece.piecePositions[i][j]);
                 }
                 else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
-                    System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is set to default");
+                    // System.out.println("Tile " + Tile.tiles[i][j].getxCoord() + ", " + Tile.tiles[i][j].getyCoord() + " is set to default");
                     Tile.getTileAtCoordinate(i, j).setIcon(pieceIconMap.get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
                 }
             }
@@ -240,5 +258,12 @@ public class GameControl {
         }else{
             System.out.println("invalid move bb");
         }
+    }
+
+    public CurrentState setState(CurrentState state){
+        state.setTurnCountState(turnCount);
+        state.setWhoseTurnState(whoseTurn);
+        state.setPiecesPositionState(Piece.piecePositions);
+        return state;
     }
 }

@@ -18,6 +18,9 @@ public class Board extends JFrame{
     private int width = 1000;
     private int height = 800;
 
+    JButton saveGameButton;
+    JButton seeSaveFiles;
+
     private Board(){
         super("Talapia Chess");
 
@@ -30,11 +33,13 @@ public class Board extends JFrame{
         }        
 
         JPanel sideBar = new JPanel();
-        JButton saveGame = new JButton("Save Game");
+        saveGameButton = new JButton("Save Game");
+        seeSaveFiles=new JButton("See all saved files");
         JButton exitGame = new JButton("Exit Game");
 
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
-        sideBar.add(saveGame);
+        sideBar.add(saveGameButton);
+        sideBar.add(seeSaveFiles);
         sideBar.add(exitGame);
         sideBar.setSize(100, gamePanel.getHeight());
         sideBar.setVisible(true);
@@ -51,14 +56,6 @@ public class Board extends JFrame{
            }
         });
 
-        saveGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Add your save game logic here
-                JOptionPane.showMessageDialog( Board.this, "Game saved!");
-            }
-        });
-
         exitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +68,13 @@ public class Board extends JFrame{
         setSize(width,height);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public JButton getSaveButton(){
+        return saveGameButton;
+    }
+    public JButton getSavedFiles(){
+        return seeSaveFiles;
     }
 
     public void resizeToOriginal() {
@@ -92,9 +96,9 @@ public class Board extends JFrame{
             setSize(1000, 800);
         }
         
-        if ((newX != x) || (newY != y)){
-            JOptionPane.showMessageDialog(this, "Frame Size Optimized!");   
-          }
+        // if ((newX != x) || (newY != y)){
+        //     JOptionPane.showMessageDialog(this, "Frame Size Optimized!");   
+        //   }
         
     }
 
