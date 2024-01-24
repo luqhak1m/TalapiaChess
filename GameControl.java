@@ -132,7 +132,7 @@ public class GameControl {
             initializePiece("PointPiece", 1, column, 'A', 'B');
         }   
         setRotationStatus();
-        rotateDaPiece();
+        rotateThePiece();
     }
 
     public int getTurnNumber(){
@@ -173,16 +173,14 @@ public class GameControl {
             if(turnCount%4==0){
                 swapPieces();
             }
-
-            board.setRotationStatus(true);
-        }else{
-            board.setRotationStatus(false);
         }
-        
-        board.flipBoard();
 
         setRotationStatus();
-        rotateDaPiece();
+
+        System.out.println("Flipping Board...");
+        board.flipBoard();
+        System.out.println("Rotating Icon...");
+        rotateThePiece();
     }
 
     public void setRotationStatus(){
@@ -215,7 +213,7 @@ public class GameControl {
         }
     }
 
-    public void rotateDaPiece(){
+    public void rotateThePiece(){
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){
                 if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){
