@@ -6,10 +6,12 @@ import java.awt.event.ActionListener;
 
 
 public class MainMenu extends JFrame{
-    Board board;
+    
+    private static MainMenu mainMenu;
+    
+    JButton playButton, loadButton, exitButton;
 
-    public MainMenu(Board b){
-        this.board=b;
+    private MainMenu(){
 
         setTitle("Talabia Chess - Main Menus");
         setSize(600,600);
@@ -17,32 +19,31 @@ public class MainMenu extends JFrame{
         JPanel panel=new JPanel();
         panel.setLayout(new FlowLayout());
 
-        JButton playButton=new JButton("Start a new Game");
-        JButton loadButton=new JButton("Load previous Game");
-        JButton exitButton=new JButton("Exit");
+        playButton=new JButton("Start a new Game");
+        loadButton=new JButton("Load previous Game");
+        exitButton=new JButton("Exit");
 
         panel.add(playButton);
         panel.add(loadButton);
         panel.add(exitButton);
         add(panel);
 
-        playButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                startNewGame();
-            }
-        });
-        loadButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                System.out.println("Nothing");
-            }
-        });
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                System.exit(0);
-            }
-        });
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public static MainMenu getMainMenu(){
+        if(mainMenu==null){mainMenu=new MainMenu();}
+        return mainMenu;
+    }
+
+    public JButton getPlayButton(){
+        return playButton;
+    }
+    public JButton getLoadButton(){
+        return loadButton;
+    }
+    public JButton getExitButton(){
+        return exitButton;
     }
 
     public void displayMainMenu(){
@@ -51,6 +52,6 @@ public class MainMenu extends JFrame{
 
     public void startNewGame(){
         this.setVisible(false);
-        board.displayBoard();
+        Board.getBoard().displayBoard();
     }
 }

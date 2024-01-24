@@ -3,6 +3,7 @@
 
 import java.util.HashMap;
 import java.util.Map;
+
 import java.awt.event.*;
 
 
@@ -43,10 +44,48 @@ public class GameControl {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(currentState!=null){
-                    
+
                     System.out.println(currentState.getSavedStates());
                 }
                 // JOptionPane.showMessageDialog( Board.this, "Game saved!");
+            }
+        });
+
+        MainMenu.getMainMenu().getPlayButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                MainMenu.getMainMenu().startNewGame();
+            }
+        });
+
+        MainMenu.getMainMenu().getLoadButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+
+                // Reset the board and variables
+                resetGame();
+
+                currentState=new CurrentState("chess_save.txt");
+                currentState.loadGame();
+
+                turnCount=currentState.getTurnCountState();
+                whoseTurn=currentState.getWhoseTurnState();
+
+                for (int i = 0; i < Board.row; i++) {
+                    for (int j = 0; j < Board.column; j++) {
+
+                        if(Piece.piecePositions[i][j]!=null){
+
+                            setPieceAtTile(Piece.piecePositions[i][j]);
+
+                        }
+                    }
+                }
+
+                Board.getBoard().displayBoard();
+            }
+        });
+        MainMenu.getMainMenu().getExitButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                System.exit(0);
             }
         });
          
@@ -265,5 +304,21 @@ public class GameControl {
         state.setWhoseTurnState(whoseTurn);
         state.setPiecesPositionState(Piece.piecePositions);
         return state;
+    }
+
+    private void resetGame() {
+        turnCount = 0;
+        whoseTurn = 'Y';
+        Piece.selectedPiece = null;
+
+        // Clear the board
+        for (int i = 0; i < Board.row; i++) {
+            for (int j = 0; j < Board.column; j++) {
+                if(Piece.piecePositions[i][j]!=null){
+                    removePieceFromTile(Piece.piecePositions[i][j]);
+                    Piece.piecePositions[i][j] = null;
+                }
+            }
+        }
     }
 }

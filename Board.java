@@ -18,8 +18,7 @@ public class Board extends JFrame{
     private int width = 1000;
     private int height = 800;
 
-    JButton saveGameButton;
-    JButton seeSaveFiles;
+    JButton saveGameButton, seeSaveFilesButton;
 
     private Board(){
         super("Talapia Chess");
@@ -34,12 +33,12 @@ public class Board extends JFrame{
 
         JPanel sideBar = new JPanel();
         saveGameButton = new JButton("Save Game");
-        seeSaveFiles=new JButton("See all saved files");
+        seeSaveFilesButton=new JButton("See all saved files");
         JButton exitGame = new JButton("Exit Game");
 
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
         sideBar.add(saveGameButton);
-        sideBar.add(seeSaveFiles);
+        sideBar.add(seeSaveFilesButton);
         sideBar.add(exitGame);
         sideBar.setSize(100, gamePanel.getHeight());
         sideBar.setVisible(true);
@@ -74,7 +73,7 @@ public class Board extends JFrame{
         return saveGameButton;
     }
     public JButton getSavedFiles(){
-        return seeSaveFiles;
+        return seeSaveFilesButton;
     }
 
     public void resizeToOriginal() {

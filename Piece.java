@@ -35,6 +35,12 @@ public abstract class Piece{
         this.posX=x;
         this.posY=y;
     }
+    public void setSide(char s){
+        this.side=s;
+    }
+    public void setStatus(char s){
+        this.status=s;
+    }
 
     public void setStatusDead(){
         this.status='D';
