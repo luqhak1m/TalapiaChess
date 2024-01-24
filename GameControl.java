@@ -173,13 +173,14 @@ public class GameControl {
             if(turnCount%4==0){
                 swapPieces();
             }
+            board.setRotationStatus(true);
+        }else{
+            board.setRotationStatus(false);
         }
 
         setRotationStatus();
 
-        System.out.println("Flipping Board...");
         board.flipBoard();
-        System.out.println("Rotating Icon...");
         rotateThePiece();
     }
 
