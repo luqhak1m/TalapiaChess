@@ -13,7 +13,7 @@ public class Board extends JFrame{
     private JPanel gamePanel;
     private static Board theBoard;
     static int row=6, column=7;
-    private boolean rotated=false;
+    private boolean rotate=false;
     private Dimension originalSize;
     private int width = 1000;
     private int height = 800;
@@ -116,18 +116,18 @@ public class Board extends JFrame{
 
         gamePanel.removeAll();
 
-        if(!rotated){
+        if(!rotate){
             for(int i=row-1; i>=0; i--){
                 for(int j=column-1; j>=0; j--){
                     gamePanel.add(Tile.tiles[i][j]);
-                    rotated=true;
+                    rotate=true;
                 }
             }
         }else{
             for(int i=0; i<row; i++){
                 for(int j=0; j<column; j++){
                     gamePanel.add(Tile.tiles[i][j]);
-                    rotated=false;
+                    rotate=false;
                 }
             }
         }
@@ -135,6 +135,10 @@ public class Board extends JFrame{
 
         gamePanel.revalidate();
         gamePanel.repaint();
+    }
+
+    public void setRotationStatus(boolean r){
+        rotate=r;
     }
 
 }
