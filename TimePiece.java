@@ -12,7 +12,7 @@ public class TimePiece extends Piece {
     // Check if the move is valid for a TimePiece (diagonal movement only)
     @Override
     public boolean validMove(int newX, int newY) {
-        int deltaX = Math.abs(newX - this.getPosX());
+        int deltaX = Math.abs(newX - this.getPosX()); //abs = positive value always
         int deltaY = Math.abs(newY - this.getPosY());
 
         // Diagonal movement is allowed
