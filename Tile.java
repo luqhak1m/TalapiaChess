@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 
 public class Tile extends JButton{
 
@@ -67,17 +66,68 @@ public class Tile extends JButton{
 
     public void rotateIcon() {
         
+        // int newWidth = Tile.tiles[0][0].getWidth();
+        // int newHeight = Tile.tiles[0][0].getHeight();
+
         if(rotate){
             Icon icon = defaultImage;
             if (icon instanceof ImageIcon) {
                 ImageIcon imageIcon = (ImageIcon) icon;
                 Image image = imageIcon.getImage();
                 Image rotatedImage = rotateImage(image, 180); // Rotate by 180 degrees
-                Image resizedImage=rotatedImage.getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
+                // if (newWidth >= 35 && newWidth <= 64){
+                //     Image resizedImage=rotatedImage.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
+                //     setRotatedImg(new ImageIcon(resizedImage));
+                // }
+                // else if (newWidth > 64 && newWidth <= 92){
+                //     Image resizedImage=rotatedImage.getScaledInstance(65, 65, java.awt.Image.SCALE_SMOOTH);
+                //     setRotatedImg(new ImageIcon(resizedImage));
+                // }
+                // else if (newWidth > 92 && newWidth <= 121){
+                //     Image resizedImage=rotatedImage.getScaledInstance(95, 95, java.awt.Image.SCALE_SMOOTH);
+                //     setRotatedImg(new ImageIcon(resizedImage));
+                // }
+                // else if (newWidth > 121 && newWidth < 200){
+                //     Image resizedImage=rotatedImage.getScaledInstance(130, 130, java.awt.Image.SCALE_SMOOTH);
+                //     setRotatedImg(new ImageIcon(resizedImage));
+                // }
+                // else if (newWidth > 200 && newHeight > 100){
+                //     Image resizedImage=rotatedImage.getScaledInstance(175, 175, java.awt.Image.SCALE_SMOOTH);
+                //     setRotatedImg(new ImageIcon(resizedImage));
+                // }
+
+                Image resizedImage=rotatedImage.getScaledInstance(130, 130, java.awt.Image.SCALE_SMOOTH);
                 setRotatedImg(new ImageIcon(resizedImage));
                 this.setRotatedIconAtTile();
+                
             }
-        }else{
+        }
+        else {
+            // if (icon instanceof ImageIcon) {
+            //     ImageIcon imageIcon = (ImageIcon) icon;
+            //     Image image = imageIcon.getImage();
+            //     if (newWidth >= 35 && newWidth <= 64){
+            //         Image resizedImage=image.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
+            //         setDefaultImg(new ImageIcon(resizedImage));
+            //     }
+            //     else if (newWidth > 64 && newWidth <= 92){
+            //         Image resizedImage=image.getScaledInstance(65, 65, java.awt.Image.SCALE_SMOOTH);
+            //         setDefaultImg(new ImageIcon(resizedImage));
+            //     }
+            //     else if (newWidth > 92 && newWidth <= 121){
+            //         Image resizedImage=image.getScaledInstance(95, 95, java.awt.Image.SCALE_SMOOTH);
+            //         setDefaultImg(new ImageIcon(resizedImage));
+            //     }
+            //     else if (newWidth > 121 && newWidth < 200){
+            //         Image resizedImage=image.getScaledInstance(130, 130, java.awt.Image.SCALE_SMOOTH);
+            //         setDefaultImg(new ImageIcon(resizedImage));
+            //     }
+            //     else if (newWidth > 200 && newHeight > 100){
+            //         Image resizedImage=image.getScaledInstance(175, 175, java.awt.Image.SCALE_SMOOTH);
+            //         setDefaultImg(new ImageIcon(resizedImage));
+            //     }
+            // }
+            
             this.setIconAtTile();
         }
     }
@@ -100,6 +150,24 @@ public class Tile extends JButton{
 
         return rotatedImage;
     }
+
+
+    public void resizeImages(int width, int height) {
+        if (defaultImage != null) {
+            Image image = defaultImage.getImage();
+            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            setDefaultImg(new ImageIcon(resizedImage));
+            setIconAtTile();
+        }
+
+        if (rotatedImage != null) {
+            Image image = rotatedImage.getImage();
+            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            setRotatedImg(new ImageIcon(resizedImage));
+            setRotatedIconAtTile();
+        }
+    }
+
 
     public void setCoordinates(int x, int y) {
         xCoord = x;
