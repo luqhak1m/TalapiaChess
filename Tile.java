@@ -11,7 +11,8 @@ public class Tile extends JButton{
 
     int xCoord, yCoord;
     private boolean rotate=false;
-    private ImageIcon defaultImage;
+    private ImageIcon defaultImage, rotatedImage;
+    private int defaultWidth=545, defaultHeight=633;
     
     public static Tile[][] tiles = new Tile[Board.row][Board.column];
 
@@ -35,6 +36,16 @@ public class Tile extends JButton{
 
     public void setDefaultImg(ImageIcon img){
         defaultImage=img;
+    }
+    public void setRotatedImg(ImageIcon img){
+        rotatedImage=img;
+    }
+
+    public void setIconAtTile(){
+        this.setIcon(defaultImage);
+    }
+    public void setRotatedIconAtTile(){
+        this.setIcon(rotatedImage);
     }
 
     public int getxCoord(){
@@ -62,15 +73,16 @@ public class Tile extends JButton{
                 ImageIcon imageIcon = (ImageIcon) icon;
                 Image image = imageIcon.getImage();
                 Image rotatedImage = rotateImage(image, 180); // Rotate by 180 degrees
-                setIcon(new ImageIcon(rotatedImage));
+                Image resizedImage=rotatedImage.getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
+                setRotatedImg(new ImageIcon(resizedImage));
+                this.setRotatedIconAtTile();
             }
         }else{
-            setIcon(defaultImage);
+            this.setIconAtTile();
         }
-
- 
-        // System.out.println("Rotated " + p + " at " + p.getPosX() + ", " + p.getPosY());
     }
+
+
 
     private Image rotateImage(Image image, int degrees) {
         int width = image.getWidth(null);

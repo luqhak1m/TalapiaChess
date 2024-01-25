@@ -144,10 +144,11 @@ public class GameControl {
 
     public void removePieceFromTile(Piece p){
         Piece.piecePositions[p.getPosX()][p.getPosY()]=null; // set the coordinate/tile to null
-        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(null); // set icon at tile to null
         Tile.tiles[p.getPosX()][p.getPosY()].setDefaultImg(null);
+        Tile.tiles[p.getPosX()][p.getPosY()].setIconAtTile();// set icon at tile to null
 
     }
+
 
     public void setRotationStatus(){
         System.out.println("checking rotation ");

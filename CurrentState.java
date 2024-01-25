@@ -1,8 +1,6 @@
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+
 import java.io.IOException;
-import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.JOptionPane;
