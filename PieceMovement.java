@@ -1,0 +1,38 @@
+public class PieceMovement {
+
+    private GameControl gameControl;
+
+    public PieceMovement(GameControl gameControl){
+        this.gameControl=gameControl;
+    }
+
+    // automatically sets the position based on the pieces position
+    public void setPieceAtTile(Piece p){
+        Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
+        Tile.tiles[p.getPosX()][p.getPosY()].setIcon(IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide()));
+        Tile.tiles[p.getPosX()][p.getPosY()].setDefaultImg(IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide()));
+    }  
+
+    public void movePieces(int x, int y, Piece p){ // this int x, int y is the destination X and Y
+        if(p.validMove(x, y)){
+
+            System.out.println("Placed piece.");
+
+            if(Piece.piecePositions[x][y]!=null){ // if the destination ada other piece
+                System.out.println("Ate a piece! The piece "+Piece.piecePositions[x][y]+"'s status is DEAD: " + Piece.piecePositions[x][y].getStatus());
+                gameControl.removePieceFromTile(p);            }
+
+            gameControl.removePieceFromTile(p); // remove piece
+            p.setPosXY(x, y); // set new xy for the piece
+            setPieceAtTile(p); //set piece at new tile
+
+            Piece.selectedPiece=null;
+            gameControl.updateTurn();
+            gameControl.updateDisplay();
+        }else{
+            System.out.println("invalid move bb");
+        }
+    }
+
+    
+}
