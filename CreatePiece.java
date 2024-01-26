@@ -5,10 +5,13 @@ import java.util.Map;
 
 public class CreatePiece{
 
+    private static CreatePiece createPieceController;
     private GameControl gameControl;
 
-    public CreatePiece(GameControl gameControl){
-        this.gameControl=gameControl;
+    public CreatePiece(){}
+    
+    public void setGameControl(GameControl gControl){
+        gameControl=gControl;
     }
 
     private static final Map<String, PieceMaker> pieceInstanceMap=Map.of(
@@ -19,11 +22,17 @@ public class CreatePiece{
         "PointPiece", PointPiece::new
     );
 
-    public static Piece createPiece(String type, int x, int y, char status, char side){
+    public Piece createPiece(String type, int x, int y, char status, char side){
         return pieceInstanceMap.get(type).makePiece(x, y, status, side);
+    }    
+
+    public static CreatePiece getCreatePieceController(){
+        if(createPieceController==null){createPieceController=new CreatePiece();}
+        return createPieceController;
     }
 
     public void instantiatePieces(){ // create the piece and put it on the board
+
         gameControl.initializePiece("PlusPiece", 5, 0, 'A', 'Y');
         gameControl.initializePiece("PlusPiece", 5, 6, 'A', 'Y');
         gameControl.initializePiece("PlusPiece", 0, 0, 'A', 'B');
@@ -42,7 +51,5 @@ public class CreatePiece{
             gameControl.initializePiece("PointPiece", 4, column, 'A', 'Y');
             gameControl.initializePiece("PointPiece", 1, column, 'A', 'B');
         }   
-        gameControl.setRotationStatus();
-        gameControl.rotateThePiece();
     }
 }

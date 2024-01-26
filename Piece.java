@@ -5,6 +5,7 @@ public abstract class Piece{
 
     private int posX, posY;
     private char side, status;
+
     static Piece selectedPiece=null;
     static Piece piecePositions[][]=new Piece[Board.row][Board.column];
 

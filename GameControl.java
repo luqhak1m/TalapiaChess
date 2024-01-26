@@ -2,36 +2,34 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import javax.swing.JOptionPane;
 
 // Controller
 
 public class GameControl {
-       private ClickHandler clickHandlerController;
-       private CreatePiece createPieceController;
-       private Gameplay gameplayController;
-       private PieceMovement pieceMovementController;
+    private ClickHandler clickHandlerController;
+    private CreatePiece createPieceController;
+    private Gameplay gameplayController;
+    private PieceMovement pieceMovementController;
+    private Rotation rotationController;
 
-       private CurrentState currentStateController;
-       private IconHandler iconHandlerController;
-       private SwapPiece swapPieceController;
-       private Board board;
-       private MainMenu mainMenu;
+    private CurrentState currentStateController;
+    private IconHandler iconHandlerController;
+    private SwapPiece swapPieceController;
+    private Board board;
+    private MainMenu mainMenu;
 
-        
-
-        public GameControl(){
+    public GameControl(){
             this.clickHandlerController=new ClickHandler(this);
-            this.createPieceController=new CreatePiece(this);
-            this.gameplayController=new Gameplay(this);
+            this.gameplayController=new Gameplay();
             this.pieceMovementController=new PieceMovement(this);
+            this.rotationController=new Rotation();
             
             this.currentStateController=CurrentState.getCurrentStateController();
-            this.iconHandlerController=IconHandler.getIconHandlerController();
+            this.createPieceController=CreatePiece.getCreatePieceController();
+            createPieceController.setGameControl(this);
 
+            this.iconHandlerController=IconHandler.getIconHandlerController();
             this.swapPieceController=SwapPiece.getSwapPieceController();
             swapPieceController.setGameControl(this);
 
@@ -41,47 +39,57 @@ public class GameControl {
             startGame();
        }
 
-       public void displayMainMenu(){
+    public void displayMainMenu(){
             mainMenu.displayMainMenu();
        }
 
-       public void startGame(){
-            gameplayController.resetGame();
+    public void startGame(){
+            iconHandlerController.mapIcon();
             clickHandlerController.addListener();
             createPieceController.instantiatePieces();
+            rotate();
        }
 
-       public void saveState(){
+    public void saveState(){
         currentStateController.setTurnCountState(gameplayController.getTurnNumber());
         currentStateController.setWhoseTurnState(gameplayController.getWhoseTurn());
-        currentStateController.setPiecesPositionState(Piece.piecePositions);
+
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                Piece piece=Piece.piecePositions[i][j];
+                if(piece!=null){
+                    PieceState pieceState=new PieceState(piece.getClass().getSimpleName(), piece.getPosX(), piece.getPosY(), piece.getStatus(), piece.getSide());
+                    currentStateController.setPiecesPositionState(pieceState);
+                }
+            }
+        }
+
     }
 
-       public void loadGame(){
+    public void loadGame(){
         // Reset the board and variables
-        gameplayController.resetGame();
+        resetGame();
 
-        currentStateController.loadGame();
+        currentStateController.loadState();
 
         gameplayController.setTurnNumber(currentStateController.getTurnCountState());
         gameplayController.setWhoseTurn(currentStateController.getWhoseTurnState());
 
         for (int i = 0; i < Board.row; i++) {
             for (int j = 0; j < Board.column; j++) {
-
-                if(Piece.piecePositions[i][j]!=null){
-
-                    pieceMovementController.setPieceAtTile(Piece.piecePositions[i][j]);
-
+                PieceState pieceState=currentStateController.getPiecePositionsState()[i][j];
+                if(pieceState!=null){
+                    initializePiece(pieceState.getPieceType(), pieceState.getPosX(), pieceState.getPosY(), pieceState.getStatus(), pieceState.getSide());
                 }
             }
         }
 
-        updateDisplay();
-        Board.getBoard().displayBoard();
+        gameplayController.updateDisplay();
+        rotate();
+        board.displayBoard();
        }
 
-       public void saveGame(){
+    public void saveGame(){
 
         CurrentState currentState=CurrentState.getCurrentStateController();
 
@@ -94,14 +102,14 @@ public class GameControl {
             // Save piece information
             for (int i = 0; i < Board.row; i++) {
                 for (int j = 0; j < Board.column; j++) {
-                    Piece piece = currentState.getPiecePositionsState()[i][j];
-                    if (piece != null) {
+                    PieceState pieceState = currentState.getPiecePositionsState()[i][j];
+                    if (pieceState != null) {
                         // Example format: "Piece: PlusPiece, X: 2, Y: 3, Status: A, Side: Y\n"
-                        writer.write("Piece: " + piece.getClass().getSimpleName() +
-                                ", X: " + piece.getPosX() +
-                                ", Y: " + piece.getPosY() +
-                                ", Status: " + piece.getStatus() +
-                                ", Side: " + piece.getSide());
+                        writer.write("Piece: " + pieceState.getPieceType() +
+                                ", X: " + pieceState.getPosX() +
+                                ", Y: " + pieceState.getPosY() +
+                                ", Status: " + pieceState.getStatus() +
+                                ", Side: " + pieceState.getSide());
                         writer.newLine();
                     }
                 }
@@ -112,8 +120,65 @@ public class GameControl {
             // JOptionPane.showMessageDialog(null, "Failed to save the game!");
         }
     }
+    
+    public void resetGame() {
+        gameplayController.setTurnNumber(0);
+        gameplayController.setWhoseTurn(gameplayController.getSideA());
+        Piece.selectedPiece = null;
+        board.setRotationStatus(false);
 
-       public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
+        // Clear the board
+        for (int i = 0; i < Board.row; i++) {
+            for (int j = 0; j < Board.column; j++) {
+                if(Piece.piecePositions[i][j]!=null){
+                    pieceMovementController.removePieceFromTile(Piece.piecePositions[i][j]);
+                    Piece.piecePositions[i][j] = null;
+                }
+            }
+        }
+    }
+
+    public void newTurn(){
+        gameplayController.updateTurn();
+        gameplayController.updateDisplay();
+        rotate();
+    }
+
+    public void initializePiece(String pieceType, int x, int y, char status, char side) {
+        pieceMovementController.setPieceAtTile(createPieceController.createPiece(pieceType, x, y, status, side));
+    }
+
+    public void repositionPiece(Piece currentPiece){
+
+        char currentPieceSide=currentPiece.getSide();    
+
+        pieceMovementController.removePieceFromTile(currentPiece);
+        initializePiece(swapPieceController.getSwapMap().get(currentPiece.getClass()).getSimpleName(), currentPiece.getPosX(), currentPiece.getPosY(), 'A', currentPieceSide);
+    }
+
+    public void rotate(){
+        
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                Piece piece=Piece.piecePositions[i][j];
+
+                if(piece!=null){
+                    
+                    if(piece.getSide()!=gameplayController.getWhoseTurn()){ // if it's not the pieces' turn rotate the icon
+                        Tile.tiles[i][j].setTileRotationStatus(true);
+                    }else{
+                        Tile.tiles[i][j].setTileRotationStatus(false);
+                    }
+
+                    rotationController.setPointPieceRotation(piece);
+                }
+            }
+        }
+
+        rotationController.rotateThePiece();
+    }
+    
+    public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
 
         System.out.println("\n+-+-+-+-+-+-+\nTile " + x + ", " + y + " clicked!");
         System.out.println("Turn number " + gameplayController.getTurnNumber() + "\n");
@@ -134,90 +199,5 @@ public class GameControl {
 
         pieceMovementController.movePieces(x, y, Piece.selectedPiece); // move da pieces
         gameplayController.printSelectedPiece();
-    }
-
-    // Initialize pieces, its icons and its positions
-    public void initializePiece(String pieceType, int x, int y, char status, char side) {
-        Piece piece=CreatePiece.createPiece(pieceType, x, y, status, side);
-        pieceMovementController.setPieceAtTile(piece);
-    }
-
-    public void removePieceFromTile(Piece p){
-        Piece.piecePositions[p.getPosX()][p.getPosY()]=null; // set the coordinate/tile to null
-        Tile.tiles[p.getPosX()][p.getPosY()].setDefaultImg(null);
-        Tile.tiles[p.getPosX()][p.getPosY()].setIconAtTile();// set icon at tile to null
-
-    }
-
-
-    public void setRotationStatus(){
-        System.out.println("checking rotation ");
-
-        for(int i=0; i<Board.row; i++){
-            for(int j=0; j<Board.column; j++){
-
-                Piece piece=Piece.piecePositions[i][j];
-
-                if(piece!=null){
-                    
-                    if(piece.getSide()!=gameplayController.getWhoseTurn()){ // if it's not the pieces' turn rotate the icon
-                        Tile.tiles[i][j].setRotationStatus(true);
-                    }else{
-                        Tile.tiles[i][j].setRotationStatus(false);
-                    }
-
-                    if(piece instanceof PointPiece){
-                        PointPiece pointPiece=(PointPiece) piece;
-                        if(pointPiece.getReversedB()||pointPiece.getReversedY()){
-                            Tile.getTileAtCoordinate(i, j).setRotationStatus(true);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void rotateThePiece(){
-        for(int i=0; i<Board.row; i++){
-            for(int j=0; j<Board.column; j++){
-                if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){
-                    Tile.getTileAtCoordinate(i, j).rotateIcon();
-                }
-                else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
-                    Tile.getTileAtCoordinate(i, j).setIcon(IconHandler.getIconMap().get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
-                }
-            }
-        }
-    }
-
-    public void updateDisplay(){
-
-        int turnCount=gameplayController.getTurnNumber();
-        
-        if(turnCount%2==0){
-            if(turnCount%4==0){
-                swapPieceController.swapPieces();
-            }
-            board.setRotationStatus(true);
-        }else{
-            board.setRotationStatus(false);
-        }
-
-        setRotationStatus();
-
-        board.flipBoard();
-        rotateThePiece();
-    }
-
-    // change side after each turn and check for possible piece swapping
-    public void updateTurn(){
-
-        int turnCount=gameplayController.getTurnNumber();
-        char whoseTurn=gameplayController.getWhoseTurn();
-        char sideA=gameplayController.getSideA();
-        char sideB=gameplayController.getSideB();
-
-        if(whoseTurn==sideA){gameplayController.setWhoseTurn(sideB);}else{gameplayController.setWhoseTurn(sideA);}
-        gameplayController.setTurnNumber(turnCount+=1);
     }
 }

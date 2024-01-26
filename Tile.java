@@ -3,8 +3,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 public class Tile extends JButton{
@@ -12,7 +10,7 @@ public class Tile extends JButton{
     int xCoord, yCoord;
     private boolean rotate=false;
     private ImageIcon defaultImage, rotatedImage;
-    private int defaultWidth=545, defaultHeight=633;
+    private int defaultWidth=100, defaultHeight=100;
     
     public static Tile[][] tiles = new Tile[Board.row][Board.column];
 
@@ -41,6 +39,10 @@ public class Tile extends JButton{
         rotatedImage=img;
     }
 
+    public ImageIcon getDefaultImg(){
+        return defaultImage;
+    }
+
     public void setIconAtTile(){
         this.setIcon(defaultImage);
     }
@@ -65,48 +67,28 @@ public class Tile extends JButton{
         return rotate;
     }
 
-    public void rotateIcon() {
-        
-        if(rotate){
-            Icon icon = defaultImage;
-            if (icon instanceof ImageIcon) {
-                ImageIcon imageIcon = (ImageIcon) icon;
-                Image image = imageIcon.getImage();
-                Image rotatedImage = rotateImage(image, 180); // Rotate by 180 degrees
-                Image resizedImage=rotatedImage.getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
-                setRotatedImg(new ImageIcon(resizedImage));
-                this.setRotatedIconAtTile();
-            }
-        }else{
-            this.setIconAtTile();
-        }
-    }
-
-
-
-    private Image rotateImage(Image image, int degrees) {
-        int width = image.getWidth(null);
-        int height = image.getHeight(null);
-
-        BufferedImage rotatedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = rotatedImage.createGraphics();
-
-        AffineTransform at = new AffineTransform();
-        at.rotate(Math.toRadians(degrees), width / 2, height / 2);
-        g2d.setTransform(at);
-
-        g2d.drawImage(image, 0, 0, null);
-        g2d.dispose();
-
-        return rotatedImage;
-    }
-
     public void setCoordinates(int x, int y) {
         xCoord = x;
         yCoord = y;
     }
 
-    public void setRotationStatus(boolean r){
+    public void setTileRotationStatus(boolean r){
         rotate=r;
+    }
+
+    public void resizeImages(int width, int height) {
+        if (defaultImage != null) {
+            Image image = defaultImage.getImage();
+            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            setDefaultImg(new ImageIcon(resizedImage));
+            setIconAtTile();
+        }
+
+        if (rotatedImage != null) {
+            Image image = rotatedImage.getImage();
+            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            setRotatedImg(new ImageIcon(resizedImage));
+            setRotatedIconAtTile();
+        }
     }
 }

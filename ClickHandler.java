@@ -7,11 +7,10 @@ public class ClickHandler {
 
     private GameControl gameControl;
 
-
-    public ClickHandler(GameControl gameControl1){
+    public ClickHandler(GameControl gameControl){
         //  public ClickHandler(CurrentState sControl, Gameplay gControl, PieceMovement pMove)
 
-        this.gameControl=gameControl1;
+        this.gameControl=gameControl;
     }
 
     public void addListener(){
@@ -37,8 +36,9 @@ public class ClickHandler {
 
         MainMenu.getMainMenu().getPlayButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+                System.out.println("starting");
                 MainMenu.getMainMenu().setVisible(false);
-                Board.getBoard().displayBoard();
+                board.displayBoard();
             }
         });
 
@@ -54,6 +54,4 @@ public class ClickHandler {
             }
         });
     }
-
-    
 }
