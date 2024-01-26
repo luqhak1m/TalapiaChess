@@ -9,9 +9,10 @@ public class SunPiece extends Piece{
     @Override
     public boolean validMove(int newX, int newY) {
 
-        int distanceX=Math.abs(this.getPosX()+newX);
-        int distanceY=Math.abs(this.getPosY()+newY);
+        int distanceX=Math.abs(newX-this.getPosX());
+        int distanceY=Math.abs(newY-this.getPosY());
 
+        System.out.println("sun moved a total of X:" + distanceX + " Y: " + distanceY);
         if(distanceX<=1&&distanceY<=1){
             return !skipPiece(newX, newY);
         }else{return false;}
