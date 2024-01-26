@@ -30,7 +30,9 @@ public class MainMenu extends JFrame{
     }
 
     public static MainMenu getMainMenu(){
-        if(mainMenu==null){mainMenu=new MainMenu();}
+        if(mainMenu==null){
+            mainMenu=new MainMenu();
+        }
         return mainMenu;
     }
 
