@@ -3,6 +3,8 @@
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 public class Tile extends JButton{
@@ -72,7 +74,7 @@ public class Tile extends JButton{
         yCoord = y;
     }
 
-    public void setTileRotationStatus(boolean r){
+    public void setRotationStatus(boolean r){
         rotate=r;
     }
 
