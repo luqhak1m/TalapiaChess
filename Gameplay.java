@@ -28,7 +28,11 @@ public class Gameplay {
     // change side after each turn and check for possible piece swapping
     public void updateTurn(){
 
-        if(whoseTurn==sideA){setWhoseTurn(sideB);}else{setWhoseTurn(sideA);}
+        if(whoseTurn==sideA){
+            setWhoseTurn(sideB);
+        }else{
+            setWhoseTurn(sideA);
+        }
         setTurnNumber(turnCount+=1);
     }
 
