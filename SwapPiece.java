@@ -22,6 +22,10 @@ public class SwapPiece {
         swapTurn=t;
     }
 
+    public int getSwapTurn(){
+        return swapTurn;
+    }
+
     public Map<Class<? extends Piece>, Class<? extends Piece>> getSwapMap(){
         return swapPieceMap;
     }
@@ -32,16 +36,13 @@ public class SwapPiece {
     }
 
     public void swapPieces(){
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
 
-        if(swapTurn==4){
-            for(int i=0; i<Board.row; i++){
-                for(int j=0; j<Board.column; j++){
-    
-                    Piece currentPiece=Piece.piecePositions[i][j];
+                Piece currentPiece=Piece.piecePositions[i][j];
 
-                    if(currentPiece!=null && swapPieceMap.containsKey(currentPiece.getClass())){ // if the piece's class is in the map of the pieces to be swapped
-                        gameControl.repositionPiece(currentPiece);
-                    }
+                if(currentPiece!=null && swapPieceMap.containsKey(currentPiece.getClass())){ // if the piece's class is in the map of the pieces to be swapped
+                    gameControl.repositionPiece(currentPiece);
                 }
             }
         }

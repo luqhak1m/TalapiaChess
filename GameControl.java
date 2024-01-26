@@ -141,6 +141,9 @@ public class GameControl {
     public void newTurn(){
         gameplayController.updateTurn();
         gameplayController.updateDisplay();
+        if(gameplayController.getTurnNumber()%swapPieceController.getSwapTurn()==0){
+            swapPieceController.swapPieces();
+        }
         rotate();
     }
 
@@ -164,7 +167,7 @@ public class GameControl {
 
                 if(piece!=null){
                     
-                    if(piece.getSide()!=gameplayController.getWhoseTurn()){ // if it's not the pieces' turn rotate the icon
+                    if(piece.getSide()!=gameplayController.getWhoseTurn()){ // if it's not the pieces' turn, rotate the icon
                         Tile.tiles[i][j].setTileRotationStatus(true);
                     }else{
                         Tile.tiles[i][j].setTileRotationStatus(false);
