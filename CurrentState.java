@@ -13,7 +13,7 @@ public class CurrentState {
 
     private int turnCountState;
     private char whoseTurnState; 
-    private Piece[][] piecePositionsState;
+    private PieceState[][] piecePositionsState=new PieceState[Board.row][Board.column];
 
     private static ArrayList<CurrentState> savedState=new ArrayList<>();
 
@@ -23,10 +23,6 @@ public class CurrentState {
         this.path=txtPath;
     }
 
-    public static CurrentState getCurrentStateController(){
-        if(currentStateControl==null){currentStateControl=new CurrentState("chess_save.txt");}
-        return currentStateControl;
-    }
 
     public void setTurnCountState(int tCount){
         this.turnCountState=tCount;
@@ -36,8 +32,8 @@ public class CurrentState {
         this.whoseTurnState=wTurn;
     }
 
-    public void setPiecesPositionState(Piece[][] piecesPos){
-        this.piecePositionsState=piecesPos;
+    public void setPiecesPositionState(PieceState pieceState){
+        this.piecePositionsState[pieceState.getPosX()][pieceState.getPosY()]=pieceState;
     }
 
     public int getTurnCountState(){
@@ -48,7 +44,7 @@ public class CurrentState {
         return whoseTurnState;
     }
 
-    public Piece[][]getPiecePositionsState(){
+    public PieceState[][]getPiecePositionsState(){
         return piecePositionsState;
     }
 
@@ -60,8 +56,16 @@ public class CurrentState {
         return path;
     }
     
+    public static CurrentState getCurrentStateController(){
+        if(currentStateControl==null){currentStateControl=new CurrentState("chess_save.txt");}
+        return currentStateControl;
+    }
+
     // Load the game state from a text file
-    public void loadGame() {
+    public void loadState() {
+
+        clearPiecesPositions();
+
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
 
             // Read and restore game state information
@@ -80,10 +84,7 @@ public class CurrentState {
                     char status = tokens[3].substring("Status: ".length()).charAt(0);
                     char side = tokens[4].substring("Side: ".length()).charAt(0);
 
-                    Piece.piecePositions[x][y]=CreatePiece.createPiece(pieceType, x, y, status, side);
-
-                    // Initialize the pieces on the board
-                    // initializePiece(pieceType, x, y, status, side);
+                    piecePositionsState[x][y]=new PieceState(pieceType, x, y, status, side);
                 }
             }
 
@@ -94,6 +95,11 @@ public class CurrentState {
         }
     }
 
-    
-    
+    public void clearPiecesPositions(){
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                piecePositionsState[i][j]=null;
+            }
+        }
+    }   
 }
