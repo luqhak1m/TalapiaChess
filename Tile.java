@@ -74,7 +74,7 @@ public class Tile extends JButton{
         yCoord = y;
     }
 
-    public void setRotationStatus(boolean r){
+    public void setTileRotationStatus(boolean r){
         rotate=r;
     }
 
