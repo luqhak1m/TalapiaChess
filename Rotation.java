@@ -21,7 +21,7 @@ public class Rotation {
     public void rotateThePiece(){
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){
-                if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){
+                if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){ //rotate status is true
                     rotateIcon(Tile.getTileAtCoordinate(i, j));
                 }
                 else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
