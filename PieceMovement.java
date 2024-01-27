@@ -5,13 +5,6 @@ public class PieceMovement {
     public PieceMovement(GameControl gameControl){
         this.gameControl=gameControl;
     }
-    
-    // automatically sets the position based on the pieces position
-    public void setPieceAtTile(Piece p){
-        Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
-        Tile.tiles[p.getPosX()][p.getPosY()].setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
-        Tile.tiles[p.getPosX()][p.getPosY()].setIconAtTile();
-    }  
 
     public void movePieces(int x, int y, Piece p){ // this int x, int y is the destination X and Y
         if(p.validMove(x, y)){
@@ -25,12 +18,12 @@ public class PieceMovement {
                 
                 removePieceFromTile(p); // remove piece
                 p.setPosXY(x, y); // set new xy for the piece
-                setPieceAtTile(p); //set piece at new tile
+                gameControl.setPieceAtTile(p); //set piece at new tile
                 
                 Piece.selectedPiece=null;
                 gameControl.newTurn();
             }else{
-                Board.getBoard().displayInvalidMove();
+                Board.getBoard().displayMessage("Invalid Move");
                 System.out.println("invalid move bb");
             }
         }
@@ -38,7 +31,7 @@ public class PieceMovement {
     // Initialize pieces, its icons and its positions
     public void removePieceFromTile(Piece p){
         Piece.piecePositions[p.getPosX()][p.getPosY()]=null; // set the coordinate/tile to null
-        Tile.tiles[p.getPosX()][p.getPosY()].setDefaultImg(null);
+        Tile.tiles[p.getPosX()][p.getPosY()].resetImg();
         Tile.tiles[p.getPosX()][p.getPosY()].setIconAtTile();// set icon at tile to null
 
     }

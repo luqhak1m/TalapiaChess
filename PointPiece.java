@@ -9,11 +9,11 @@ public class PointPiece extends Piece {
     }
 
     public boolean getReversedY(){
-        return reversedY;
+        return this.reversedY;
     }
 
     public boolean getReversedB(){
-        return reversedB;
+        return this.reversedB;
     }
 
     @Override
@@ -33,6 +33,7 @@ public class PointPiece extends Piece {
             if (reversedY) {
                 if (position == 5) {
                     reversedY = false;      //Yellow reached the end of the board, switch direction
+                    System.out.println("Switching direction...");
                     if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
                         return !skipPiece(newX, newY);
                     } else {
@@ -50,6 +51,7 @@ public class PointPiece extends Piece {
             } else {
                 if (position == 0) {
                     reversedY = true;   //Yellow reached the end of the board, switch direction
+                    System.out.println("Switching direction...");
                     if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
                         return !skipPiece(newX, newY);
                     } else {
@@ -71,6 +73,7 @@ public class PointPiece extends Piece {
             if (reversedB) {
                 if (position == 0) {
                     reversedB = false;  //Blue reached the end of the board, switch direction
+                    System.out.println("Switching direction...");
                     if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward > 0) {
                         return !skipPiece(newX, newY);
                     } else {
@@ -89,6 +92,7 @@ public class PointPiece extends Piece {
             } else {
                 if (position == 5) {
                     reversedB = true;       //Blue reached the end of the board, switch direction
+                    System.out.println("Switching direction...");
                     if ((totalMovement == 1 || totalMovement == 2) && deltaY == 0 && forward < 0) {
                         return !skipPiece(newX, newY);
                     } else {

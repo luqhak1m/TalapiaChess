@@ -38,13 +38,10 @@ public class Gameplay {
 
     public void updateDisplay(){
         if(turnCount%2==0){
-            
             Board.getBoard().setRotationStatus(true);
         }else{
             Board.getBoard().setRotationStatus(false);
         }
-
-        Board.getBoard().flipBoard();
     }
 
     public void selectPiece(Piece p){

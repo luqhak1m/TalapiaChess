@@ -3,8 +3,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 public class Tile extends JButton{
@@ -23,17 +21,6 @@ public class Tile extends JButton{
         this.yCoord=y;              
     }
 
-    public static Tile getTileAtCoordinate(int x, int y){
-        for(int i=0; i<Board.row; i++){
-            for(int j=0; j<Board.column; j++){
-                if(Tile.tiles[i][j].xCoord==x&&Tile.tiles[i][j].yCoord==y){
-                    return Tile.tiles[i][j];
-                }
-            }
-        }
-        return null;
-    }
-
     public void setDefaultImg(ImageIcon img){
         defaultImage=img;
     }
@@ -44,12 +31,24 @@ public class Tile extends JButton{
     public ImageIcon getDefaultImg(){
         return defaultImage;
     }
+    public Image getIconImageType(){
+        ImageIcon imageIcon=this.getDefaultImg();
+        return imageIcon.getImage();
+    }
+    public ImageIcon getIconImageIconType(Image img){
+        return new ImageIcon(img);
+    }
+    public ImageIcon getRotatedImg(){
+        return rotatedImage;
+    }
 
     public void setIconAtTile(){
-        this.setIcon(defaultImage);
-    }
-    public void setRotatedIconAtTile(){
-        this.setIcon(rotatedImage);
+        
+        if(this.rotate){
+            this.setIcon(rotatedImage);
+        }else{
+            this.setIcon(defaultImage);
+        }
     }
 
     public int getxCoord(){
@@ -78,19 +77,8 @@ public class Tile extends JButton{
         rotate=r;
     }
 
-    public void resizeImages(int width, int height) {
-        if (defaultImage != null) {
-            Image image = defaultImage.getImage();
-            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-            setDefaultImg(new ImageIcon(resizedImage));
-            setIconAtTile();
-        }
-
-        if (rotatedImage != null) {
-            Image image = rotatedImage.getImage();
-            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-            setRotatedImg(new ImageIcon(resizedImage));
-            setRotatedIconAtTile();
-        }
+    public void resetImg(){
+        defaultImage=null;
+        rotatedImage=null;
     }
 }

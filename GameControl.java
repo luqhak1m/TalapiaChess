@@ -144,12 +144,35 @@ public class GameControl {
         if(gameplayController.getTurnNumber()%swapPieceController.getSwapTurn()==0){
             swapPieceController.swapPieces();
         }
+        rotationController.flipBoard();
         rotate();
     }
 
     public void initializePiece(String pieceType, int x, int y, char status, char side) {
-        pieceMovementController.setPieceAtTile(createPieceController.createPiece(pieceType, x, y, status, side));
+        Piece p=createPieceController.createPiece(pieceType, x, y, status, side);
+        Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
+
+        Tile tile=Tile.tiles[p.getPosX()][p.getPosY()];
+
+        tile.setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
+        tile.setRotatedImg(tile.getIconImageIconType(rotationController.rotateImage(tile.getIconImageType(), 180)));
+
+        rotationController.checkRotation(p, gameplayController.getWhoseTurn(), p.getPosX(), p.getPosY());
+        tile.setIconAtTile();
     }
+
+    // automatically sets the position based on the pieces position
+    public void setPieceAtTile(Piece p){
+        Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
+        Tile tile=Tile.tiles[p.getPosX()][p.getPosY()];
+
+        tile.setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
+        tile.setRotatedImg(tile.getIconImageIconType(rotationController.rotateImage(tile.getIconImageType(), 180)));
+        System.out.println(tile.getRotatedImg());
+
+        rotationController.checkRotation(p, gameplayController.getWhoseTurn(), p.getPosX(), p.getPosY());
+        tile.setIconAtTile();
+    }  
 
     public void repositionPiece(Piece currentPiece){
 
@@ -164,20 +187,13 @@ public class GameControl {
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){
                 Piece piece=Piece.piecePositions[i][j];
+                char c=gameplayController.getWhoseTurn();
 
                 if(piece!=null){
-                    
-                    if(piece.getSide()!=gameplayController.getWhoseTurn()){ // if it's not the pieces' turn, rotate the icon
-                        Tile.tiles[i][j].setTileRotationStatus(true);
-                    }else{
-                        Tile.tiles[i][j].setTileRotationStatus(false);
-                    }
-
-                    rotationController.setPointPieceRotation(piece);
+                    rotationController.checkRotation(piece, c, i, j);
                 }
             }
         }
-
         rotationController.rotateThePiece();
     }
     
@@ -202,5 +218,11 @@ public class GameControl {
 
         pieceMovementController.movePieces(x, y, Piece.selectedPiece); // move da pieces
         gameplayController.printSelectedPiece();
+    }
+
+    public void resizeBoard(){
+        if (Board.getBoard().getBoardPanel().getSize() != Board.getBoard().getOriginalSize()) {
+            rotationController.resizeToOriginal();
+        }
     }
 }

@@ -9,11 +9,24 @@ public class Rotation {
 
     public Rotation(){}
 
-    public void setPointPieceRotation(Piece piece){
-        if(piece instanceof PointPiece){
-            PointPiece pointPiece=(PointPiece) piece;
-            if(pointPiece.getReversedB()||pointPiece.getReversedY()){
-                Tile.getTileAtCoordinate(piece.getPosX(), piece.getPosY()).setTileRotationStatus(true);
+    public void checkRotation(Piece piece, char whoseTurn, int i, int j){
+        if(piece.getSide()!=whoseTurn){ // if it's not the pieces' turn, rotate the icon
+            Tile.tiles[i][j].setTileRotationStatus(true);
+            if(piece instanceof PointPiece){
+                PointPiece pointPiece=(PointPiece) piece;
+                    if(pointPiece.getPosX()==0||(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                        Tile.tiles[i][j].setTileRotationStatus(false);
+                        System.out.println("Tile " + i + ", " + j + " is " + Tile.tiles[i][j].getRotationStatus());
+                    }
+            }
+        }else{
+            Tile.tiles[i][j].setTileRotationStatus(false);
+            if(piece instanceof PointPiece){
+                PointPiece pointPiece=(PointPiece) piece;
+                if(pointPiece.getPosX()==5||(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                    Tile.tiles[i][j].setTileRotationStatus(true);
+                    System.out.println("Tile " + i + ", " + j + " is " + Tile.tiles[i][j].getRotationStatus());
+                }
             }
         }
     }
@@ -22,10 +35,10 @@ public class Rotation {
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){
                 if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){ //rotate status is true
-                    rotateIcon(Tile.getTileAtCoordinate(i, j));
+                    rotateIcon(Tile.tiles[i][j]);
                 }
                 else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
-                    Tile.getTileAtCoordinate(i, j).setIcon(IconHandler.getIconMap().get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
+                    Tile.tiles[i][j].setIcon(IconHandler.getIconMap().get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
                 }
             }
         }
@@ -41,14 +54,14 @@ public class Rotation {
                 Image rotatedImage = rotateImage(image, 180); // Rotate by 180 degrees
                 Image resizedImage=rotatedImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                 t.setRotatedImg(new ImageIcon(resizedImage));
-                t.setRotatedIconAtTile();
+                t.setIconAtTile();
             }
         }else{
             t.setIconAtTile();
         }
     }
 
-    private Image rotateImage(Image image, int degrees) {
+    public Image rotateImage(Image image, int degrees) {
         int width = image.getWidth(null);
         int height = image.getHeight(null);
 
@@ -63,5 +76,94 @@ public class Rotation {
         g2d.dispose();
 
         return rotatedImage;
+    }
+
+    public void resizeImages(int width, int height, int x, int y) {
+        if (Tile.tiles[x][y].getDefaultImg() != null) {
+            Image image = Tile.tiles[x][y].getDefaultImg().getImage();
+            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            Tile.tiles[x][y].setDefaultImg(new ImageIcon(resizedImage));
+            Tile.tiles[x][y].setIconAtTile();
+        }
+
+        if (Tile.tiles[x][y].getRotatedImg() != null) {
+            Image image = Tile.tiles[x][y].getRotatedImg().getImage();
+            Image resizedImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            Tile.tiles[x][y].setRotatedImg(new ImageIcon(resizedImage));
+            Tile.tiles[x][y].setIconAtTile();
+        }
+    }
+
+    public void resizeToOriginal() {
+        int x = Board.getBoard().getComponentWidth();
+        int y = Board.getBoard().getComponentHeight();
+        int newX = Board.getBoard().getWidth();
+        int newY = Board.getBoard().getBoardHeight();
+
+        if ((x > 0 && x < 400) || (y > 0 && y < 200)) {
+            Board.getBoard().setSize(400, 200);
+            for (int i = 0; i < Board.row; i++) {
+                for (int j = 0; j < Board.column; j++) {
+                    resizeImages(25, 25, i, j);
+                }
+            }
+
+        } else if ((x > 400 && x < 600) || (y > 200 && y < 400)) {
+            Board.getBoard().setSize(600, 400);
+            for (int i = 0; i < Board.row; i++) {
+                for (int j = 0; j < Board.column; j++) {
+                    resizeImages(65, 65, i, j);
+                }
+            }
+        } else if ((x > 600 && x < 800) || (y > 400 && y < 600)) {
+            Board.getBoard().setSize(800, 600);
+            for (int i = 0; i < Board.row; i++) {
+                for (int j = 0; j < Board.column; j++) {
+                    resizeImages(95, 95, i, j);
+                }
+            }
+        } else if ((x > 800 && x < 1550) || (y > 600 && y < 800)) {
+            Board.getBoard().setSize(1000, 800);
+            for (int i = 0; i < Board.row; i++) {
+                for (int j = 0; j < Board.column; j++) {
+                    resizeImages(130, 130, i, j);
+                }
+            }
+        } else if ((x > 1550) || (y > 800)) {
+            for (int i = 0; i < Board.row; i++) {
+                for (int j = 0; j < Board.column; j++) {
+                    resizeImages(175, 175, i, j);
+                }
+            }
+        }
+
+        // if ((newX != x) || (newY != y)){
+        //     Board.getBoard().displayMessage("Frame Size Optimized!");;
+        // }
+
+    }
+
+    public void flipBoard() {
+
+        Board.getBoard().getBoardPanel().removeAll();
+
+        if (!Board.getBoard().getRotationStatus()) {
+            for (int i = Board.row - 1; i >= 0; i--) {
+                for (int j = Board.column - 1; j >= 0; j--) {
+                    Board.getBoard().getBoardPanel().add(Tile.tiles[i][j]);
+                    Board.getBoard().setRotationStatus(true);
+                }
+            }
+        } else {
+            for (int i = 0; i < Board.row; i++) {
+                for (int j = 0; j < Board.column; j++) {
+                    Board.getBoard().getBoardPanel().add(Tile.tiles[i][j]);
+                    Board.getBoard().setRotationStatus(false);
+                }
+            }
+        }
+
+        Board.getBoard().getBoardPanel().revalidate();
+        Board.getBoard().getBoardPanel().repaint();
     }
 }
