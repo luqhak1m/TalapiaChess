@@ -18,7 +18,7 @@ public class PieceMovement {
             
             System.out.println("Placed piece.");
             
-            if(Piece.piecePositions[x][y]!=null){ // if the has another piece
+            if(Piece.piecePositions[x][y]!=null){ // if the tile has another piece
                 System.out.println("Ate a piece! The piece "+Piece.piecePositions[x][y]+"'s status is DEAD: " + Piece.piecePositions[x][y].getStatus());
                 removePieceFromTile(Piece.piecePositions[x][y]);            
             }
