@@ -13,7 +13,7 @@ public class HourglassPiece extends Piece{
         System.out.println("hDistance: " + hDistance + ", vDistance: " + vDistance);
 
         //movement of hourglass piece in 3x2 L shape in any orientation
-        return (hDistance == 2 && vDistance == 1) || (hDistance == 3 && vDistance == 1) || (hDistance == 1 && vDistance == 2); //return true if 3x2 in L shape
+        return (hDistance == 2 && vDistance == 1) || (hDistance == 1 && vDistance == 2); //return true if 3x2 in L shape
         
     }
 
