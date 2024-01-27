@@ -30,6 +30,7 @@ public class PieceMovement {
                 Piece.selectedPiece=null;
                 gameControl.newTurn();
             }else{
+                Board.getBoard().displayInvalidMove();
                 System.out.println("invalid move bb");
             }
         }

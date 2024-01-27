@@ -76,8 +76,8 @@ public class Board extends JFrame {
     public void resizeToOriginal() {
         int x = getWidth();
         int y = getHeight();
-        // int newX = width;
-        // int newY = height;
+        int newX = width;
+        int newY = height;
 
         if ((x > 0 && x < 400) || (y > 0 && y < 200)) {
             setSize(400, 200);
@@ -116,9 +116,9 @@ public class Board extends JFrame {
             }
         }
 
-        // if ((newX != x) || (newY != y)){
-        // JOptionPane.showMessageDialog(this, "Frame Size Optimized!");
-        // }
+        if ((newX != x) || (newY != y)){
+        JOptionPane.showMessageDialog(this, "Frame Size Optimized!");
+        }
 
     }
 
@@ -159,6 +159,11 @@ public class Board extends JFrame {
 
     public void setRotationStatus(boolean r) {
         rotate = r;
+    }
+
+    public void displayInvalidMove(){
+        JOptionPane.showMessageDialog(this, "Invalid Move!");
+
     }
 
 }
