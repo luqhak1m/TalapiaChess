@@ -50,6 +50,6 @@ public class CreatePiece{
         for (int column = 0; column < 7; column++) {
             gameControl.initializePiece("PointPiece", 4, column, 'A', 'Y');
             gameControl.initializePiece("PointPiece", 1, column, 'A', 'B');
-        }   
+        }  
     }
 }

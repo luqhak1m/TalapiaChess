@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 // Controller
 
-public class GameControl {
+public class GameControl{
     private ClickHandler clickHandlerController;
     private CreatePiece createPieceController;
     private Gameplay gameplayController;
@@ -50,6 +50,12 @@ public class GameControl {
             rotate();
        }
 
+    public void endGame(){
+        board.displayMessage("Sun captured! " + gameplayController.getWhoseTurn() + " Wins!");
+        resetGame();
+        createPieceController.instantiatePieces();
+    }
+
     public void saveState(){
         currentStateController.setTurnCountState(gameplayController.getTurnNumber());
         currentStateController.setWhoseTurnState(gameplayController.getWhoseTurn());
@@ -75,6 +81,7 @@ public class GameControl {
         gameplayController.setTurnNumber(currentStateController.getTurnCountState());
         gameplayController.setWhoseTurn(currentStateController.getWhoseTurnState());
 
+        
         for (int i = 0; i < Board.row; i++) {
             for (int j = 0; j < Board.column; j++) {
                 PieceState pieceState=currentStateController.getPiecePositionsState()[i][j];
@@ -83,9 +90,10 @@ public class GameControl {
                 }
             }
         }
-
+        
         gameplayController.updateDisplay();
         rotate();
+        rotationController.flipBoard();
         board.displayBoard();
        }
 
@@ -126,8 +134,11 @@ public class GameControl {
         gameplayController.setWhoseTurn(gameplayController.getSideA());
         Piece.selectedPiece = null;
         board.setRotationStatus(false);
+        
+        gameplayController.updateDisplay();
+        rotationController.flipBoard();
 
-        // Clear the board
+        // Clear the pieces
         for (int i = 0; i < Board.row; i++) {
             for (int j = 0; j < Board.column; j++) {
                 if(Piece.piecePositions[i][j]!=null){
@@ -174,14 +185,13 @@ public class GameControl {
         tile.setIconAtTile();
     }  
 
-    public void repositionPiece(Piece currentPiece){
+    public void recreatePiece(Piece currentPiece){
 
         char currentPieceSide=currentPiece.getSide();    
 
         pieceMovementController.removePieceFromTile(currentPiece);
         initializePiece(swapPieceController.getSwapMap().get(currentPiece.getClass()).getSimpleName(), currentPiece.getPosX(), currentPiece.getPosY(), 'A', currentPieceSide);
     }
-
     public void rotate(){
         
         for(int i=0; i<Board.row; i++){
@@ -217,6 +227,8 @@ public class GameControl {
         }
 
         pieceMovementController.movePieces(x, y, Piece.selectedPiece); // move da pieces
+
+        
         gameplayController.printSelectedPiece();
     }
 

@@ -6,8 +6,8 @@ public abstract class Piece{
     private int posX, posY;
     private char side, status;
 
-    static Piece selectedPiece=null;
-    static Piece piecePositions[][]=new Piece[Board.row][Board.column];
+    public static Piece selectedPiece=null;
+    public static Piece piecePositions[][]=new Piece[Board.row][Board.column];
 
     public Piece(int x, int y, char st, char si){
 
@@ -45,6 +45,14 @@ public abstract class Piece{
 
     public void setStatusDead(){
         this.status='D';
+    }
+
+    public static void clearPieces(){
+        for(int i=0;i <Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                piecePositions[i][j]=null;
+            }
+        }
     }
 
     public abstract boolean validMove(int newX, int newY);

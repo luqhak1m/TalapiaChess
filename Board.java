@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Board extends JFrame {
 
-    private JPanel gamePanel;
+    private JPanel gamePanel=new JPanel(new GridLayout(row, column));
     private static Board theBoard;
     static int row = 6, column = 7;
     private boolean rotate = false;
@@ -18,13 +18,7 @@ public class Board extends JFrame {
     private Board() {
         super("Talapia Chess");
 
-        gamePanel = new JPanel(new GridLayout(6, 7));
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 7; j++) {
-                Tile.tiles[i][j] = new Tile(i, j);
-                gamePanel.add(Tile.tiles[i][j]);
-            }
-        }
+        addTiles();
 
         JPanel sideBar = new JPanel();
         saveGameButton = new JButton("Save Game");
@@ -94,5 +88,21 @@ public class Board extends JFrame {
 
     }
 
-    
+    public void addTiles(){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                Tile.tiles[i][j] = new Tile(i, j);
+                gamePanel.add(Tile.tiles[i][j]);
+            }
+        }
+    }
+
+    public void clearTiles(){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                Tile.tiles[i][j] = new Tile(i, j);
+                gamePanel.remove(Tile.tiles[i][j]);
+            }
+        }
+    }
 }

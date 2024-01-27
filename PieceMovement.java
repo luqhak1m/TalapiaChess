@@ -11,17 +11,25 @@ public class PieceMovement {
             
             System.out.println("Placed piece.");
             
-            if(Piece.piecePositions[x][y]!=null){ // if the tile has another piece
-                System.out.println("Ate a piece! The piece "+Piece.piecePositions[x][y]+"'s status is DEAD: " + Piece.piecePositions[x][y].getStatus());
-                removePieceFromTile(Piece.piecePositions[x][y]);            
+            Piece pieceAtPlacedTile=Piece.piecePositions[x][y];
+            
+            if(pieceAtPlacedTile!=null){ // if the tile has another piece
+                pieceAtPlacedTile.setStatusDead();
+                System.out.println("Ate a piece! The piece "+pieceAtPlacedTile+ " at " + x + ", " + y  + "'s status is DEAD: " + pieceAtPlacedTile.getStatus());
+                removePieceFromTile(Piece.piecePositions[x][y]);     
+                if(pieceAtPlacedTile instanceof SunPiece){
+                    gameControl.endGame();return;
+                }  
             }
-                
-                removePieceFromTile(p); // remove piece
-                p.setPosXY(x, y); // set new xy for the piece
-                gameControl.setPieceAtTile(p); //set piece at new tile
-                
-                Piece.selectedPiece=null;
-                gameControl.newTurn();
+            
+            removePieceFromTile(p); // remove piece
+            p.setPosXY(x, y); // set new xy for the piece
+            gameControl.setPieceAtTile(p); //set piece at new tile
+            
+            Piece.selectedPiece=null;
+            gameControl.newTurn();
+
+        
             }else{
                 Board.getBoard().displayMessage("Invalid Move");
                 System.out.println("invalid move bb");

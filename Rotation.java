@@ -100,42 +100,42 @@ public class Rotation {
         int newX = Board.getBoard().getWidth();
         int newY = Board.getBoard().getBoardHeight();
 
-        if ((x > 0 && x < 400) || (y > 0 && y < 200)) {
-            Board.getBoard().setSize(400, 200);
-            for (int i = 0; i < Board.row; i++) {
-                for (int j = 0; j < Board.column; j++) {
-                    resizeImages(25, 25, i, j);
-                }
-            }
+        // if ((x > 0 && x < 400) || (y > 0 && y < 200)) {
+        //     Board.getBoard().setSize(400, 200);
+        //     for (int i = 0; i < Board.row; i++) {
+        //         for (int j = 0; j < Board.column; j++) {
+        //             resizeImages(25, 25, i, j);
+        //         }
+        //     }
 
-        } else if ((x > 400 && x < 600) || (y > 200 && y < 400)) {
-            Board.getBoard().setSize(600, 400);
-            for (int i = 0; i < Board.row; i++) {
-                for (int j = 0; j < Board.column; j++) {
-                    resizeImages(65, 65, i, j);
-                }
-            }
-        } else if ((x > 600 && x < 800) || (y > 400 && y < 600)) {
-            Board.getBoard().setSize(800, 600);
-            for (int i = 0; i < Board.row; i++) {
-                for (int j = 0; j < Board.column; j++) {
-                    resizeImages(95, 95, i, j);
-                }
-            }
-        } else if ((x > 800 && x < 1550) || (y > 600 && y < 800)) {
-            Board.getBoard().setSize(1000, 800);
-            for (int i = 0; i < Board.row; i++) {
-                for (int j = 0; j < Board.column; j++) {
-                    resizeImages(130, 130, i, j);
-                }
-            }
-        } else if ((x > 1550) || (y > 800)) {
-            for (int i = 0; i < Board.row; i++) {
-                for (int j = 0; j < Board.column; j++) {
-                    resizeImages(175, 175, i, j);
-                }
-            }
-        }
+        // } else if ((x > 400 && x < 600) || (y > 200 && y < 400)) {
+        //     Board.getBoard().setSize(600, 400);
+        //     for (int i = 0; i < Board.row; i++) {
+        //         for (int j = 0; j < Board.column; j++) {
+        //             resizeImages(65, 65, i, j);
+        //         }
+        //     }
+        // } else if ((x > 600 && x < 800) || (y > 400 && y < 600)) {
+        //     Board.getBoard().setSize(800, 600);
+        //     for (int i = 0; i < Board.row; i++) {
+        //         for (int j = 0; j < Board.column; j++) {
+        //             resizeImages(95, 95, i, j);
+        //         }
+        //     }
+        // } else if ((x > 800 && x < 1550) || (y > 600 && y < 800)) {
+        //     Board.getBoard().setSize(1000, 800);
+        //     for (int i = 0; i < Board.row; i++) {
+        //         for (int j = 0; j < Board.column; j++) {
+        //             resizeImages(130, 130, i, j);
+        //         }
+        //     }
+        // } else if ((x > 1550) || (y > 800)) {
+        //     for (int i = 0; i < Board.row; i++) {
+        //         for (int j = 0; j < Board.column; j++) {
+        //             resizeImages(175, 175, i, j);
+        //         }
+        //     }
+        // }
 
         // if ((newX != x) || (newY != y)){
         //     Board.getBoard().displayMessage("Frame Size Optimized!");;
@@ -151,14 +151,12 @@ public class Rotation {
             for (int i = Board.row - 1; i >= 0; i--) {
                 for (int j = Board.column - 1; j >= 0; j--) {
                     Board.getBoard().getBoardPanel().add(Tile.tiles[i][j]);
-                    Board.getBoard().setRotationStatus(true);
                 }
             }
         } else {
             for (int i = 0; i < Board.row; i++) {
                 for (int j = 0; j < Board.column; j++) {
                     Board.getBoard().getBoardPanel().add(Tile.tiles[i][j]);
-                    Board.getBoard().setRotationStatus(false);
                 }
             }
         }

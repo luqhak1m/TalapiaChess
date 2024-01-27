@@ -42,7 +42,7 @@ public class SwapPiece {
                 Piece currentPiece=Piece.piecePositions[i][j];
 
                 if(currentPiece!=null && swapPieceMap.containsKey(currentPiece.getClass())){ // if the piece's class is in the map of the pieces to be swapped
-                    gameControl.repositionPiece(currentPiece);
+                    gameControl.recreatePiece(currentPiece);
                 }
             }
         }
