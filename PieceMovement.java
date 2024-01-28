@@ -15,11 +15,11 @@ public class PieceMovement {
             
             if(pieceAtPlacedTile!=null){ // if the tile has another piece
                 pieceAtPlacedTile.setStatusDead();
+                if(gameControl.getGameOver()){
+                    return;
+                }
                 System.out.println("Ate a piece! The piece "+pieceAtPlacedTile+ " at " + x + ", " + y  + "'s status is DEAD: " + pieceAtPlacedTile.getStatus());
-                removePieceFromTile(Piece.piecePositions[x][y]);     
-                if(pieceAtPlacedTile instanceof SunPiece){
-                    gameControl.endGame();return;
-                }  
+                removePieceFromTile(Piece.piecePositions[x][y]);      
             }
             
             removePieceFromTile(p); // remove piece
@@ -32,7 +32,6 @@ public class PieceMovement {
         
             }else{
                 Board.getBoard().displayMessage("Invalid Move");
-                System.out.println("invalid move bb");
             }
         }
            

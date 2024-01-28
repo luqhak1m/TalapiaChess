@@ -51,5 +51,15 @@ public class CreatePiece{
             gameControl.initializePiece("PointPiece", 4, column, 'A', 'Y');
             gameControl.initializePiece("PointPiece", 1, column, 'A', 'B');
         }  
+
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                Piece piece=Piece.piecePositions[i][j];
+                if(piece instanceof SunPiece){
+                    SunPiece sunPiece=(SunPiece) piece;
+                    sunPiece.setDeathListener(gameControl);
+                }
+            }
+        }
     }
 }

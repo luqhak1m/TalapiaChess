@@ -3,6 +3,7 @@ public class Gameplay {
     private int turnCount=0;
     private char sideA='Y', sideB='B';
     private char whoseTurn=sideA;
+    private boolean gameOver=false;
 
     public Gameplay(){}
     
@@ -11,6 +12,9 @@ public class Gameplay {
     }
     public void setTurnNumber(int n){
         turnCount=n;
+    }
+    public void setgameOver(boolean o){
+        gameOver=o;
     }
     public int getTurnNumber(){
         return turnCount;
@@ -23,6 +27,9 @@ public class Gameplay {
     }
     public char getSideB(){
         return sideB;
+    }
+    public boolean getGameOver(){
+        return gameOver;
     }
 
     // change side after each turn and check for possible piece swapping

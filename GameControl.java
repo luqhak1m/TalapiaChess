@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 // Controller
 
-public class GameControl{
+public class GameControl implements SunDeathListener{
     private ClickHandler clickHandlerController;
     private CreatePiece createPieceController;
     private Gameplay gameplayController;
@@ -39,16 +39,27 @@ public class GameControl{
             startGame();
        }
 
+    @Override
+    public void update(SunPiece sunPiece){
+        System.out.println("Listened and acted");
+        endGame();
+        gameplayController.setgameOver(true);
+    }
+
+    public boolean getGameOver(){
+        return gameplayController.getGameOver();
+    }
+
     public void displayMainMenu(){
             mainMenu.displayMainMenu();
-       }
+    }
 
     public void startGame(){
             iconHandlerController.mapIcon();
             clickHandlerController.addListener();
             createPieceController.instantiatePieces();
             rotate();
-       }
+    }
 
     public void endGame(){
         board.displayMessage("Sun captured! " + gameplayController.getWhoseTurn() + " Wins!");
@@ -130,6 +141,7 @@ public class GameControl{
     }
     
     public void resetGame() {
+        gameplayController.setgameOver(false);
         gameplayController.setTurnNumber(0);
         gameplayController.setWhoseTurn(gameplayController.getSideA());
         Piece.selectedPiece = null;
@@ -192,6 +204,7 @@ public class GameControl{
         pieceMovementController.removePieceFromTile(currentPiece);
         initializePiece(swapPieceController.getSwapMap().get(currentPiece.getClass()).getSimpleName(), currentPiece.getPosX(), currentPiece.getPosY(), 'A', currentPieceSide);
     }
+
     public void rotate(){
         
         for(int i=0; i<Board.row; i++){
