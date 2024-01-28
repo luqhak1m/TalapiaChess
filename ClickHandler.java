@@ -71,6 +71,13 @@ public class ClickHandler {
             @Override
             public void componentResized(ComponentEvent e) {
                 gameControl.resizeBoard();
+                for(int i=0; i<Board.row; i++){
+                    for(int j=0; j<Board.column; j++){
+                        if(Piece.piecePositions[i][j]!=null){
+                            gameControl.setPieceAtTile(Piece.piecePositions[i][j]);
+                        }
+                    }
+                }
             }
         });
     }

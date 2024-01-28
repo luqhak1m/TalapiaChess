@@ -22,7 +22,7 @@ public class GameControl{
             this.clickHandlerController=new ClickHandler(this);
             this.gameplayController=new Gameplay();
             this.pieceMovementController=new PieceMovement(this);
-            this.rotationController=new Rotation();
+            this.rotationController=new Rotation(this);
             
             this.currentStateController=CurrentState.getCurrentStateController();
             this.createPieceController=CreatePiece.getCreatePieceController();
@@ -121,6 +121,7 @@ public class GameControl{
         }
         rotationController.flipBoard();
         rotate();
+        
     }
 
     // Automatically sets the icon on the board based on the pieces position.
@@ -131,6 +132,7 @@ public class GameControl{
 
         tile.setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
         tile.setRotatedImg(tile.getIconImageIconType(rotationController.rotateImage(tile.getIconImageType(), 180)));
+        //rotationController.resizeImages(tile.getyDefaultWidth()/Board.row, tile.getDefaultHeight()/Board.column, p.getPosX(), p.getPosY());
 
         rotationController.checkRotation(p, gameplayController.getWhoseTurn(), p.getPosX(), p.getPosY());
         tile.setIconAtTile();
@@ -157,10 +159,10 @@ public class GameControl{
 
                 if(piece!=null){
                     rotationController.checkRotation(piece, c, i, j);
+                    rotationController.rotateIcon(Tile.tiles[i][j]);
                 }
             }
         }
-        rotationController.rotateThePiece();
     }
     
     // For each clicking, this method will be executed.
