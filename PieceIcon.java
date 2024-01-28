@@ -1,5 +1,7 @@
 
 // View
+// Holds the Blue and Yellow icon for each piece's class.
+// Author: Luqman
 
 import java.awt.*;
 
@@ -10,6 +12,16 @@ public class PieceIcon {
     private Class<? extends Piece> pieceClass;
     private ImageIcon yellowImage, blueImage;
 
+    // Constructor.
+    // Written by: Luqman
+    public PieceIcon(Class<? extends Piece> p, ImageIcon yImg, ImageIcon bImg){
+        this.pieceClass=p;
+        this.yellowImage=yImg;
+        this.blueImage=bImg;
+    }
+
+    // Get image as ImageIcon object.
+    // Written by: Luqman
     public static ImageIcon getImage(String path){
         ImageIcon pieceImage = new ImageIcon(path);
         Image image = pieceImage.getImage();
@@ -19,6 +31,8 @@ public class PieceIcon {
         return pieceImage;
     }
 
+    // Getters and Setters.
+    // Written by: Luqman
     public Class<? extends Piece> getPiece(){
         return this.pieceClass;
     }
@@ -28,7 +42,6 @@ public class PieceIcon {
     public ImageIcon getBlueImg(){
         return this.blueImage;
     }
-    
     public ImageIcon getIconImg(char side){
         if(side=='Y'){
             return this.yellowImage;
@@ -36,9 +49,4 @@ public class PieceIcon {
         return this.blueImage;}
     }
 
-    public PieceIcon(Class<? extends Piece> p, ImageIcon yImg, ImageIcon bImg){
-        this.pieceClass=p;
-        this.yellowImage=yImg;
-        this.blueImage=bImg;
-    }
 }

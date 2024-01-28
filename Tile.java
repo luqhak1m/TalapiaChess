@@ -1,5 +1,7 @@
 
 // View
+// Each tile exists inside the board.
+// Authors: Aisyah, Luqman
 
 import java.awt.*;
 import javax.swing.*;
@@ -14,6 +16,8 @@ public class Tile extends JButton{
     
     public static Tile[][] tiles = new Tile[Board.row][Board.column];
 
+    // Constructor.
+    // Written by: Luqman
     public Tile(int x, int y){
         setBackground(new Color(255,255,255));
         setSize(200, 200);  
@@ -21,13 +25,24 @@ public class Tile extends JButton{
         this.yCoord=y;              
     }
 
+    // Set XY coordinate for the tile.
+    // Written by: Aisyah
+    public void setCoordinates(int x, int y) {
+        xCoord = x;
+        yCoord = y;
+    }
+
+    // Getters and Setters.
+    // Written by: Luqman
     public void setDefaultImg(ImageIcon img){
         defaultImage=img;
     }
     public void setRotatedImg(ImageIcon img){
         rotatedImage=img;
     }
-
+    public void setTileRotationStatus(boolean r){
+        rotate=r;
+    }
     public ImageIcon getDefaultImg(){
         return defaultImage;
     }
@@ -41,7 +56,6 @@ public class Tile extends JButton{
     public ImageIcon getRotatedImg(){
         return rotatedImage;
     }
-
     public void setIconAtTile(){
         
         if(this.rotate){
@@ -50,14 +64,12 @@ public class Tile extends JButton{
             this.setIcon(defaultImage);
         }
     }
-
     public int getxCoord(){
         return this.xCoord;
     }
     public int getyCoord(){
         return this.yCoord;
     }
-
     public int getxCoord(int x, int y){
         return tiles[x][y].xCoord;
     }
@@ -68,15 +80,8 @@ public class Tile extends JButton{
         return rotate;
     }
 
-    public void setCoordinates(int x, int y) {
-        xCoord = x;
-        yCoord = y;
-    }
-
-    public void setTileRotationStatus(boolean r){
-        rotate=r;
-    }
-
+    // Set image on tile to null.
+    // Written by: Luqman
     public void resetImg(){
         defaultImage=null;
         rotatedImage=null;

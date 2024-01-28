@@ -1,12 +1,9 @@
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.JOptionPane;
+// The Facade class. The goal is to provide high level methods that's made out of methods from different controllers.
+// Used in: ClickHandler.java, CreatePiece.java, CurrentState.java, Gameplay.java, IconHandler.java, PieceMovement.java, Rotation.java and SwapPiece.java.
+// Authors: Asyrani, Haiqal, Luqman
 
-// Controller
-
-public class GameControl implements SunDeathListener{
+public class GameControl{
     private ClickHandler clickHandlerController;
     private CreatePiece createPieceController;
     private Gameplay gameplayController;
@@ -19,6 +16,8 @@ public class GameControl implements SunDeathListener{
     private Board board;
     private MainMenu mainMenu;
 
+    // Constructor
+    // Written by: Luqman
     public GameControl(){
             this.clickHandlerController=new ClickHandler(this);
             this.gameplayController=new Gameplay();
@@ -39,21 +38,14 @@ public class GameControl implements SunDeathListener{
             startGame();
        }
 
-    @Override
-    public void update(SunPiece sunPiece){
-        System.out.println("Listened and acted");
-        endGame();
-        gameplayController.setgameOver(true);
-    }
-
-    public boolean getGameOver(){
-        return gameplayController.getGameOver();
-    }
-
+    // Display main menu.
+    // Written by: Luqman
     public void displayMainMenu(){
             mainMenu.displayMainMenu();
     }
 
+    // Initialize the resources needed to play the game.
+    // Written by: Luqman
     public void startGame(){
             iconHandlerController.mapIcon();
             clickHandlerController.addListener();
@@ -61,30 +53,17 @@ public class GameControl implements SunDeathListener{
             rotate();
     }
 
+    // End the game by resetting the board and pieces.
+    // Written by: Luqman
     public void endGame(){
-        board.displayMessage("Sun captured! " + gameplayController.getWhoseTurn() + " Wins!");
         resetGame();
         createPieceController.instantiatePieces();
     }
 
-    public void saveState(){
-        currentStateController.setTurnCountState(gameplayController.getTurnNumber());
-        currentStateController.setWhoseTurnState(gameplayController.getWhoseTurn());
-
-        for(int i=0; i<Board.row; i++){
-            for(int j=0; j<Board.column; j++){
-                Piece piece=Piece.piecePositions[i][j];
-                if(piece!=null){
-                    PieceState pieceState=new PieceState(piece.getClass().getSimpleName(), piece.getPosX(), piece.getPosY(), piece.getStatus(), piece.getSide());
-                    currentStateController.setPiecesPositionState(pieceState);
-                }
-            }
-        }
-
-    }
-
+    // Load the latest saved state and putting everything in place.
+    // Written by: Luqman
     public void loadGame(){
-        // Reset the board and variables
+
         resetGame();
 
         currentStateController.loadState();
@@ -97,57 +76,28 @@ public class GameControl implements SunDeathListener{
             for (int j = 0; j < Board.column; j++) {
                 PieceState pieceState=currentStateController.getPiecePositionsState()[i][j];
                 if(pieceState!=null){
-                    initializePiece(pieceState.getPieceType(), pieceState.getPosX(), pieceState.getPosY(), pieceState.getStatus(), pieceState.getSide());
+                    createPieceController.initializePiece(pieceState.getPieceType(), pieceState.getPosX(), pieceState.getPosY(), pieceState.getStatus(), pieceState.getSide());
+                }else{
+                    currentStateController.setPiecesPositionStateNull(i, j);;
                 }
             }
         }
         
-        gameplayController.updateDisplay();
+        gameplayController.updateBoardRotationStatus();
         rotate();
         rotationController.flipBoard();
         board.displayBoard();
-       }
-
-    public void saveGame(){
-
-        CurrentState currentState=CurrentState.getCurrentStateController();
-
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentState.getPath()))) {
-            // Save turn count and whose turn it is
-            writer.write("TurnCount: " + currentState.getTurnCountState() + "\n");
-            writer.write("WhoseTurn: " + currentState.getWhoseTurnState() + "\n");
-
-            // Save piece information
-            for (int i = 0; i < Board.row; i++) {
-                for (int j = 0; j < Board.column; j++) {
-                    PieceState pieceState = currentState.getPiecePositionsState()[i][j];
-                    if (pieceState != null) {
-                        // Example format: "Piece: PlusPiece, X: 2, Y: 3, Status: A, Side: Y\n"
-                        writer.write("Piece: " + pieceState.getPieceType() +
-                                ", X: " + pieceState.getPosX() +
-                                ", Y: " + pieceState.getPosY() +
-                                ", Status: " + pieceState.getStatus() +
-                                ", Side: " + pieceState.getSide());
-                        writer.newLine();
-                    }
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Game saved!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            // JOptionPane.showMessageDialog(null, "Failed to save the game!");
-        }
     }
-    
+
+    // Reset the game state.
+    // Written by: Haiqal, Luqman
     public void resetGame() {
-        gameplayController.setgameOver(false);
+
         gameplayController.setTurnNumber(0);
         gameplayController.setWhoseTurn(gameplayController.getSideA());
-        Piece.selectedPiece = null;
+        gameplayController.setSelectedPiece(null);
         board.setRotationStatus(false);
-        
-        gameplayController.updateDisplay();
+        gameplayController.updateBoardRotationStatus();
         rotationController.flipBoard();
 
         // Clear the pieces
@@ -161,9 +111,11 @@ public class GameControl implements SunDeathListener{
         }
     }
 
+    // Update necessary information every new turn.
+    // Written by: Luqman
     public void newTurn(){
         gameplayController.updateTurn();
-        gameplayController.updateDisplay();
+        gameplayController.updateBoardRotationStatus();
         if(gameplayController.getTurnNumber()%swapPieceController.getSwapTurn()==0){
             swapPieceController.swapPieces();
         }
@@ -171,40 +123,31 @@ public class GameControl implements SunDeathListener{
         rotate();
     }
 
-    public void initializePiece(String pieceType, int x, int y, char status, char side) {
-        Piece p=createPieceController.createPiece(pieceType, x, y, status, side);
-        Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
-
-        Tile tile=Tile.tiles[p.getPosX()][p.getPosY()];
-
-        tile.setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
-        tile.setRotatedImg(tile.getIconImageIconType(rotationController.rotateImage(tile.getIconImageType(), 180)));
-
-        rotationController.checkRotation(p, gameplayController.getWhoseTurn(), p.getPosX(), p.getPosY());
-        tile.setIconAtTile();
-    }
-
-    // automatically sets the position based on the pieces position
+    // Automatically sets the icon on the board based on the pieces position.
+    // Written by: Luqman
     public void setPieceAtTile(Piece p){
         Piece.piecePositions[p.getPosX()][p.getPosY()]=p;
         Tile tile=Tile.tiles[p.getPosX()][p.getPosY()];
 
         tile.setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
         tile.setRotatedImg(tile.getIconImageIconType(rotationController.rotateImage(tile.getIconImageType(), 180)));
-        System.out.println(tile.getRotatedImg());
 
         rotationController.checkRotation(p, gameplayController.getWhoseTurn(), p.getPosX(), p.getPosY());
         tile.setIconAtTile();
     }  
 
+    // Replace the current piece with its counterpart during swapping.
+    // Written by: Luqman
     public void recreatePiece(Piece currentPiece){
 
         char currentPieceSide=currentPiece.getSide();    
 
         pieceMovementController.removePieceFromTile(currentPiece);
-        initializePiece(swapPieceController.getSwapMap().get(currentPiece.getClass()).getSimpleName(), currentPiece.getPosX(), currentPiece.getPosY(), 'A', currentPieceSide);
+        createPieceController.initializePiece(swapPieceController.getSwapMap().get(currentPiece.getClass()).getSimpleName(), currentPiece.getPosX(), currentPiece.getPosY(), 'A', currentPieceSide);
     }
 
+    // Check each piece's rotation status and rotate the piece based on the rotation status.
+    // Written by: Luqman
     public void rotate(){
         
         for(int i=0; i<Board.row; i++){
@@ -220,34 +163,52 @@ public class GameControl implements SunDeathListener{
         rotationController.rotateThePiece();
     }
     
+    // For each clicking, this method will be executed.
+    // Written by: Luqman
     public void clickTile(int x, int y){ // this int x, int y is the destination X and Y
 
         System.out.println("\n+-+-+-+-+-+-+\nTile " + x + ", " + y + " clicked!");
         System.out.println("Turn number " + gameplayController.getTurnNumber() + "\n");
-        System.out.println("Tile rotation status is " + Tile.tiles[x][y].getRotationStatus());
 
-        if(Piece.selectedPiece==null){ // if no selected piece then select the clicked piece
+        if(gameplayController.getSelectedPiece()==null){ // if no selected piece then select the clicked piece
             gameplayController.verifyValidTurn(x, y);
             gameplayController.printSelectedPiece();
             return;
         }
         
-        if(Piece.selectedPiece.getPosX()==x&&Piece.selectedPiece.getPosY()==y){ // if click at same position (deselect)
-            System.out.println("Deselect piece");
-            gameplayController.selectPiece(null);
+        if(gameplayController.getSelectedPiece().getPosX()==x&&gameplayController.getSelectedPiece().getPosY()==y){ // if click at same position (deselect)
+            board.displayMessage("Piece deselected!");
+            gameplayController.setSelectedPiece(null);
             gameplayController.printSelectedPiece();
             return;
         }
 
-        pieceMovementController.movePieces(x, y, Piece.selectedPiece); // move da pieces
-
-        
-        gameplayController.printSelectedPiece();
+        pieceMovementController.movePieces(x, y, gameplayController.getSelectedPiece());
     }
 
+    // Resize the board.
+    // Written by: Asyrani
     public void resizeBoard(){
         if (Board.getBoard().getBoardPanel().getSize() != Board.getBoard().getOriginalSize()) {
             rotationController.resizeToOriginal();
         }
+    }
+
+    // To get the saveGame() method from the CurrentState controller.
+    // Written by: Luqman
+    public void saveGame(){
+        currentStateController.saveGame(gameplayController.getTurnNumber(), gameplayController.getWhoseTurn(), currentStateController.getPiecePositionsState());
+    }
+
+    // To get the saveState() method from the CurrentState controller.
+    // Written by: Luqman
+    public void saveState(){
+        currentStateController.saveState(gameplayController.getTurnNumber(), gameplayController.getWhoseTurn());
+    }
+
+    // To set the selected piece.
+    // Written by: Luqman
+    public void setSelectedPiece(Piece p){
+        gameplayController.setSelectedPiece(p);
     }
 }

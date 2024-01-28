@@ -1,3 +1,7 @@
+
+// Model.
+// Author: Sabrina
+
 public class PlusPiece extends Piece {
 
     // Constructor for PlusPiece
@@ -6,12 +10,14 @@ public class PlusPiece extends Piece {
     }
     
     // Check if the move to the new position is valid
+    // Written By: Sabrina
     @Override
     public boolean validMove(int newX, int newY) {
         return !skipPiece(newX, newY);
     }
 
     // Check if there are any pieces in the path to the new position
+    // Written by: Sabrina
     @Override
     public boolean skipPiece(int newX, int newY) {
         // Determine the direction of the move

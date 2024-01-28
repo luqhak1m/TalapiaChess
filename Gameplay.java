@@ -1,20 +1,29 @@
+
+// Stores every attributes and methods during the gameplay.
+// Used in: GameControl.java
+// Author: Luqman
+
 public class Gameplay {
 
     private int turnCount=0;
     private char sideA='Y', sideB='B';
     private char whoseTurn=sideA;
-    private boolean gameOver=false;
+    private Piece selectedPiece=null;
 
+    // Constructor.
+    // Written by: Luqman
     public Gameplay(){}
     
+    // Getters and Setters.
+    // Written by: Luqman
     public void setWhoseTurn(char c){
         whoseTurn=c;
     }
     public void setTurnNumber(int n){
         turnCount=n;
     }
-    public void setgameOver(boolean o){
-        gameOver=o;
+    public void setSelectedPiece(Piece p){
+        selectedPiece=p;
     }
     public int getTurnNumber(){
         return turnCount;
@@ -28,11 +37,12 @@ public class Gameplay {
     public char getSideB(){
         return sideB;
     }
-    public boolean getGameOver(){
-        return gameOver;
+    public Piece getSelectedPiece(){
+        return selectedPiece;
     }
 
-    // change side after each turn and check for possible piece swapping
+    // Update turn count and change the side that will move on the next turn.
+    // Written by: Luqman
     public void updateTurn(){
 
         if(whoseTurn==sideA){
@@ -43,7 +53,9 @@ public class Gameplay {
         setTurnNumber(turnCount+=1);
     }
 
-    public void updateDisplay(){
+    // Check if the board should rotate on current turn.
+    // Written by: Luqman
+    public void updateBoardRotationStatus(){
         if(turnCount%2==0){
             Board.getBoard().setRotationStatus(true);
         }else{
@@ -51,28 +63,27 @@ public class Gameplay {
         }
     }
 
-    public void selectPiece(Piece p){
-        Piece.selectedPiece=p;
-    }
-
-    // logging and debugging
+    // Logging and debugging.
+    // Written by: Luqman
     public void printSelectedPiece(){
-        System.out.println("Current selected piece is: " + Piece.selectedPiece);
+        System.out.println("Current selected piece is: " + selectedPiece);
     }
 
-    // if clicked piece's side is equal to the whoseTurn
+    // Check if clicked piece's side is equal to the whoseTurn.
+    // Written by: Luqman
     public boolean checkValidTurn(Piece p){
         if(p.getSide()==getWhoseTurn()){
             return true;
         }else{return false;}
     }
 
-    // deal with multiple clicking instances
+    // Check if clicked tile is empty and if the clicked piece can be selected.
+    // Written by: Luqman
     public void verifyValidTurn(int x, int y){
         if(Piece.piecePositions[x][y]==null){
             System.out.println("Empty Tile");
         }else if(checkValidTurn(Piece.piecePositions[x][y])){
-            selectPiece(Piece.piecePositions[x][y]);
+            setSelectedPiece(Piece.piecePositions[x][y]);
         }else{System.out.println("Not your turn");}
     }
 }

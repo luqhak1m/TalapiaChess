@@ -1,21 +1,31 @@
+
+// Model.
+// Author: Asyrani
+
+
 public class PointPiece extends Piece {
     
     //Reversed when piece reached the end of the board
     private boolean reversedY = false;
     private boolean reversedB = false;
 
+    // Constructor.
+    // Written By: Asyrani
     public PointPiece(int x, int y, char st, char si) {
         super(x, y, st, si);
     }
 
+    // Getters.
+    // Written By: Asyrani
     public boolean getReversedY(){
         return this.reversedY;
     }
-
     public boolean getReversedB(){
         return this.reversedB;
     }
 
+    // Check for valid movement.
+    // Written: Asyrani
     @Override
     public boolean validMove(int newX, int newY) {
         int deltaX = Math.abs(newX - getPosX());
@@ -109,8 +119,8 @@ public class PointPiece extends Piece {
         }
     }
 
-
-
+    // Check if it skips any pieces.
+    // Written: Asyrani
     @Override
     public boolean skipPiece(int newX, int newY) {
         int deltaX = Integer.compare(newX, this.getPosX());

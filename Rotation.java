@@ -1,4 +1,8 @@
 
+// Anything related to rotating and resizing the View classes.
+// Used in: GameControl.java
+// Authors: Aisyah, Asyrani, Luqman
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.AffineTransform;
@@ -9,41 +13,10 @@ public class Rotation {
 
     public Rotation(){}
 
-    public void checkRotation(Piece piece, char whoseTurn, int i, int j){
-        if(piece.getSide()!=whoseTurn){ // if it's not the pieces' turn, rotate the icon
-            Tile.tiles[i][j].setTileRotationStatus(true);
-            if(piece instanceof PointPiece){
-                PointPiece pointPiece=(PointPiece) piece;
-                    if(pointPiece.getPosX()==0||(pointPiece.getReversedB()||pointPiece.getReversedY())){
-                        Tile.tiles[i][j].setTileRotationStatus(false);
-                        System.out.println("Tile " + i + ", " + j + " is " + Tile.tiles[i][j].getRotationStatus());
-                    }
-            }
-        }else{
-            Tile.tiles[i][j].setTileRotationStatus(false);
-            if(piece instanceof PointPiece){
-                PointPiece pointPiece=(PointPiece) piece;
-                if(pointPiece.getPosX()==5||(pointPiece.getReversedB()||pointPiece.getReversedY())){
-                    Tile.tiles[i][j].setTileRotationStatus(true);
-                    System.out.println("Tile " + i + ", " + j + " is " + Tile.tiles[i][j].getRotationStatus());
-                }
-            }
-        }
-    }
+    
 
-    public void rotateThePiece(){
-        for(int i=0; i<Board.row; i++){
-            for(int j=0; j<Board.column; j++){
-                if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){ //rotate status is true
-                    rotateIcon(Tile.tiles[i][j]);
-                }
-                else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
-                    Tile.tiles[i][j].setIcon(IconHandler.getIconMap().get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
-                }
-            }
-        }
-    }
-
+    // Rotate the icon on tile.
+    // Written by: Aisyah
     public void rotateIcon(Tile t) {
         
         if(t.getRotationStatus()){
@@ -61,6 +34,8 @@ public class Rotation {
         }
     }
 
+    // Rotate icon.
+    // Written by: Aisyah
     public Image rotateImage(Image image, int degrees) {
         int width = image.getWidth(null);
         int height = image.getHeight(null);
@@ -78,6 +53,8 @@ public class Rotation {
         return rotatedImage;
     }
 
+    // Resize icon on tile.
+    // Written by: Asyrani
     public void resizeImages(int width, int height, int x, int y) {
         if (Tile.tiles[x][y].getDefaultImg() != null) {
             Image image = Tile.tiles[x][y].getDefaultImg().getImage();
@@ -94,6 +71,8 @@ public class Rotation {
         }
     }
 
+    // Resize icon based on the boardd's size.
+    // Written by: Asyrani
     public void resizeToOriginal() {
         int x = Board.getBoard().getComponentWidth();
         int y = Board.getBoard().getComponentHeight();
@@ -143,6 +122,8 @@ public class Rotation {
 
     }
 
+    // Flip the board when necessary.
+    // Written by: Aisyah, Luqman
     public void flipBoard() {
 
         Board.getBoard().getBoardPanel().removeAll();
@@ -163,5 +144,44 @@ public class Rotation {
 
         Board.getBoard().getBoardPanel().revalidate();
         Board.getBoard().getBoardPanel().repaint();
+    }
+
+    // Check if icon on the tile need to be rotated.
+    // Written by: Luqman
+    public void checkRotation(Piece piece, char whoseTurn, int i, int j){
+        if(piece.getSide()!=whoseTurn){ // if it's not the pieces' turn, rotate the icon
+            Tile.tiles[i][j].setTileRotationStatus(true);
+            if(piece instanceof PointPiece){
+                PointPiece pointPiece=(PointPiece) piece;
+                    if(pointPiece.getPosX()==0||(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                        Tile.tiles[i][j].setTileRotationStatus(false);
+                        System.out.println("Tile " + i + ", " + j + " is " + Tile.tiles[i][j].getRotationStatus());
+                    }
+            }
+        }else{
+            Tile.tiles[i][j].setTileRotationStatus(false);
+            if(piece instanceof PointPiece){
+                PointPiece pointPiece=(PointPiece) piece;
+                if(pointPiece.getPosX()==5||(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                    Tile.tiles[i][j].setTileRotationStatus(true);
+                    System.out.println("Tile " + i + ", " + j + " is " + Tile.tiles[i][j].getRotationStatus());
+                }
+            }
+        }
+    }
+
+    // Rotate the pieces if necessary.
+    // Written by: Luqman
+    public void rotateThePiece(){
+        for(int i=0; i<Board.row; i++){
+            for(int j=0; j<Board.column; j++){
+                if(Piece.piecePositions[i][j]!=null && Tile.tiles[i][j].getRotationStatus()){ //rotate status is true
+                    rotateIcon(Tile.tiles[i][j]);
+                }
+                else if(Piece.piecePositions[i][j]!=null&&!Tile.tiles[i][j].getRotationStatus()){ // if rotate status is false set original image
+                    Tile.tiles[i][j].setIcon(IconHandler.getIconMap().get(Piece.piecePositions[i][j].getClass()).getIconImg(Piece.piecePositions[i][j].getSide()));;
+                }
+            }
+        }
     }
 }

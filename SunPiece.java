@@ -1,23 +1,17 @@
+
 // Model
+// Author: Luqman
 
 public class SunPiece extends Piece{
 
-    SunDeathListener death; // An object that imlements the listener
-
+    // Constructor.
+    // Written: Luqman
     public SunPiece(int x, int y, char st, char si) {
         super(x, y, st, si);
     }
 
-    @Override
-    public void setStatusDead(){
-        super.setStatusDead();
-        if(this.death!=null){death.update(this);}
-    }
-
-    public void setDeathListener(SunDeathListener death){
-        this.death=death;
-    }
-
+    // Check for valid movement.
+    // Written: Luqman
     @Override
     public boolean validMove(int newX, int newY) {
 
@@ -31,6 +25,8 @@ public class SunPiece extends Piece{
 
     }
 
+    // Check if it skips any pieces.
+    // Written by: Luqman
     @Override
     public boolean skipPiece(int newX, int newY) {
         return false;

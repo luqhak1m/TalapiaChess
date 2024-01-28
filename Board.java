@@ -1,4 +1,7 @@
+
 // View
+// Board that contains the tiles. It's a Singleton because there will be only one board throughout the game.
+// Authors: Asyrani, Luqman
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +18,10 @@ public class Board extends JFrame {
 
     JButton saveGameButton, exitGameButton;
 
+    // Constructor.
+    // Written by: Asyrani
     private Board() {
-        super("Talapia Chess");
+        super("Talabia Chess");
 
         addTiles();
 
@@ -31,33 +36,35 @@ public class Board extends JFrame {
         sideBar.setVisible(true);
         add(gamePanel, BorderLayout.CENTER);
         add(sideBar, BorderLayout.EAST);
-
+        
         setSize(width, height);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-
+    
+    // Getters and Setters.
+    // Written by: Luqman
+    public void setRotationStatus(boolean r) {
+        rotate = r;
+    }
     public JButton getSaveButton() {
         return saveGameButton;
     }
     public JButton getExiteButton() {
         return exitGameButton;
     }
-
     public static Board getBoard() {
         if (theBoard == null) {
             theBoard = new Board();
         }
         return theBoard;
     }
-
     public JPanel getBoardPanel() {
         return gamePanel;
     }
     public Dimension getOriginalSize() {
         return originalSize;
     }
-
     public int getComponentWidth(){
         return getWidth();
     }
@@ -70,24 +77,25 @@ public class Board extends JFrame {
     public int getBoardHeight(){
         return height;
     }
+    public boolean getRotationStatus(){
+        return rotate;
+    }
 
+    // Display board..
+    // Written by: Luqman
     public void displayBoard() {
         getBoard().setVisible(true);
     }
 
-    public void setRotationStatus(boolean r) {
-        rotate = r;
-    }
-
+    // Display messages.
+    // Written by: Luqman
     public void displayMessage(String s){
         JOptionPane.showMessageDialog(this, s);
 
     }
-    public boolean getRotationStatus(){
-        return rotate;
 
-    }
-
+    // Add tiles into the board..
+    // Written by: Luqman
     public void addTiles(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
@@ -97,6 +105,8 @@ public class Board extends JFrame {
         }
     }
 
+    // Clear tiles from the board.
+    // Written by: Luqman
     public void clearTiles(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {

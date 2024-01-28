@@ -1,3 +1,8 @@
+
+// For storing pieces state.
+// Used in: CurrentState.java
+// Author: Luqman
+
 public class PieceState {
 
     String pieceType;
@@ -6,6 +11,8 @@ public class PieceState {
     char status;
     char side;
 
+    // Constructor.
+    // Written by: Luqman
     public PieceState(String pieceType, int x, int y, char status, char side){
         this.pieceType=pieceType;
         this.x=x;
@@ -14,6 +21,8 @@ public class PieceState {
         this.side=side;
     }
 
+    // Getters.
+    // Written by: Luqman
     public String getPieceType(){
         return pieceType;
     }

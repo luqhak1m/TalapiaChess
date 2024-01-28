@@ -1,6 +1,6 @@
 
 // Model
-
+// Author: Haiqal
 
 public class TimePiece extends Piece {
 
@@ -10,6 +10,7 @@ public class TimePiece extends Piece {
     }
 
     // Check if the move is valid for a TimePiece (diagonal movement only)
+    // Written by: Haiqal
     @Override
     public boolean validMove(int newX, int newY) {
         int deltaX = Math.abs(newX - this.getPosX()); //abs = positive value always
@@ -27,6 +28,7 @@ public class TimePiece extends Piece {
     }
 
     // Check if the TimePiece can skip over pieces and handle opponents/teammates
+    // Written by: Haiqal
     @Override
     public boolean skipPiece(int newX, int newY) {
         int directionX = Integer.compare(newX, this.getPosX());
