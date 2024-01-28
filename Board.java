@@ -50,7 +50,7 @@ public class Board extends JFrame {
     public JButton getSaveButton() {
         return saveGameButton;
     }
-    public JButton getExiteButton() {
+    public JButton getExitButton() {
         return exitGameButton;
     }
     public static Board getBoard() {
