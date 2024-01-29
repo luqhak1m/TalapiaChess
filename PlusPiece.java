@@ -13,7 +13,15 @@ public class PlusPiece extends Piece {
     // Written By: Sabrina
     @Override
     public boolean validMove(int newX, int newY) {
-        return !skipPiece(newX, newY);
+        // Determine the direction of the move
+        int distanceX = Math.abs(newX - this.getPosX());
+        int distanceY = Math.abs(newY - this.getPosY());
+
+        if(distanceX==0||distanceY==0){
+            return !skipPiece(newX, newY);
+        }else{
+            return false;
+        }
     }
 
     // Check if there are any pieces in the path to the new position
@@ -28,8 +36,9 @@ public class PlusPiece extends Piece {
         int checkX = this.getPosX() + directionX;
         int checkY = this.getPosY() + directionY;
 
+
         // Loop through each tile in the path
-        while (checkX != newX || checkY != newY) {
+        while ((checkX != newX && checkY==newY) || (checkY != newY&&checkX==newX)) {
             // Check if the tile is occupied by another piece
             if (Piece.piecePositions[checkX][checkY] != null) {
                 System.out.println("Tile " + checkX + ", " + checkY + " is occupied. Stopping algorithm.");

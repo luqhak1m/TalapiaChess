@@ -171,6 +171,16 @@ public class GameControl{
 
         System.out.println("\n+-+-+-+-+-+-+\nTile " + x + ", " + y + " clicked!");
         System.out.println("Turn number " + gameplayController.getTurnNumber() + "\n");
+        System.out.println("Tile " + x + ", " + y + " rotation is " + Tile.tiles[x][y].getRotationStatus());
+        if(Piece.piecePositions[x][y] instanceof PointPiece){
+            PointPiece pointPiece= (PointPiece) Piece.piecePositions[x][y];
+            if(pointPiece.getSide()=='Y'){
+                System.out.println("Point Piece reversion is " + pointPiece.getReversedY());
+            }else{
+                System.out.println("Point Piece reversion is " + pointPiece.getReversedB());
+            }
+        }
+
 
         if(gameplayController.getSelectedPiece()==null){ // if no selected piece then select the clicked piece
             gameplayController.verifyValidTurn(x, y);

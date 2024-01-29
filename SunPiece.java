@@ -22,7 +22,6 @@ public class SunPiece extends Piece{
         if(distanceX<=1&&distanceY<=1){
             return !skipPiece(newX, newY);
         }else{return false;}
-
     }
 
     // Check if it skips any pieces.

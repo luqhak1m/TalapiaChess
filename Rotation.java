@@ -76,59 +76,11 @@ public class Rotation {
     // Resize icon based on the boardd's size.
     // Written by: Asyrani
     public void resizeToOriginal() {
-        int x = Board.getBoard().getComponentHeight();
-        int y = Board.getBoard().getComponentWidth();
-        int newX = Board.getBoard().getBoardWidth();
-        int newY = Board.getBoard().getBoardHeight();
-
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){
                 resizeImages(Tile.tiles[i][j].getWidth()/2, Tile.tiles[i][j].getHeight(), i, j);
-                //Tile.tiles[i][j].setIconAtTile();
             }
         }
-
-        // if ((x > 0 && x < 400) || (y > 0 && y < 200)) {
-        //     Board.getBoard().setSize(400, 200);
-        //     for (int i = 0; i < Board.row; i++) {
-        //         for (int j = 0; j < Board.column; j++) {
-        //             resizeImages(25, 25, i, j);
-        //         }
-        //     }
-
-        // } else if ((x > 400 && x < 600) || (y > 200 && y < 400)) {
-        //     Board.getBoard().setSize(600, 400);
-        //     for (int i = 0; i < Board.row; i++) {
-        //         for (int j = 0; j < Board.column; j++) {
-        //             resizeImages(65, 65, i, j);
-        //         }
-        //     }
-        // } else if ((x > 600 && x < 800) || (y > 400 && y < 600)) {
-        //     Board.getBoard().setSize(800, 600);
-        //     for (int i = 0; i < Board.row; i++) {
-        //         for (int j = 0; j < Board.column; j++) {
-        //             resizeImages(95, 95, i, j);
-        //         }
-        //     }
-        // } else if ((x > 800 && x < 1550) || (y > 600 && y < 800)) {
-        //     Board.getBoard().setSize(1000, 800);
-        //     for (int i = 0; i < Board.row; i++) {
-        //         for (int j = 0; j < Board.column; j++) {
-        //             resizeImages(130, 130, i, j);
-        //         }
-        //     }
-        // } else if ((x > 1550) || (y > 800)) {
-        //     for (int i = 0; i < Board.row; i++) {
-        //         for (int j = 0; j < Board.column; j++) {
-        //             resizeImages(175, 175, i, j);
-        //         }
-        //     }
-        // }
-
-        // if ((newX != x) || (newY != y)){
-        //     Board.getBoard().displayMessage("Frame Size Optimized!");;
-        // }
-
     }
 
     // Flip the board when necessary.
@@ -162,17 +114,38 @@ public class Rotation {
             Tile.tiles[i][j].setTileRotationStatus(true);
             if(piece instanceof PointPiece){
                 PointPiece pointPiece=(PointPiece) piece;
-                    if(pointPiece.getPosX()==0||(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                    if((pointPiece.getPosX()==0||pointPiece.getPosX()==5)){
+                        Tile.tiles[i][j].setTileRotationStatus(false);
+                    }else if(pointPiece.getReversedB()||pointPiece.getReversedY()){
                         Tile.tiles[i][j].setTileRotationStatus(false);
                     }
+                    
+                    if((pointPiece.getPosX()==0||pointPiece.getPosX()==5)&&(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                        Tile.tiles[i][j].setTileRotationStatus(true);
+                    }
+
+                    // if(!pointPiece.getReversedB()&&!pointPiece.getReversedY()){
+                    //     Tile.tiles[i][j].setTileRotationStatus(false);
+                    // }
             }
         }else{
             Tile.tiles[i][j].setTileRotationStatus(false);
             if(piece instanceof PointPiece){
                 PointPiece pointPiece=(PointPiece) piece;
-                if(pointPiece.getPosX()==5||(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                
+                if((pointPiece.getPosX()==0||pointPiece.getPosX()==5)){
+                    Tile.tiles[i][j].setTileRotationStatus(true);
+                }else if(pointPiece.getReversedB()||pointPiece.getReversedY()){
                     Tile.tiles[i][j].setTileRotationStatus(true);
                 }
+
+                if((pointPiece.getPosX()==0||pointPiece.getPosX()==5)&&(pointPiece.getReversedB()||pointPiece.getReversedY())){
+                    Tile.tiles[i][j].setTileRotationStatus(false);
+                }
+                
+                // if(!pointPiece.getReversedB()&&!pointPiece.getReversedY()){
+                //     Tile.tiles[i][j].setTileRotationStatus(false);
+                // }
             }
         }
     }

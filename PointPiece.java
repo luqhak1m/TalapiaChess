@@ -23,6 +23,12 @@ public class PointPiece extends Piece {
     public boolean getReversedB(){
         return this.reversedB;
     }
+    public void setReversedY(boolean r){
+        this.reversedY=r;
+    }
+    public void setReversedB(boolean r){
+        this.reversedB=r;
+    }
 
     // Check for valid movement.
     // Written: Asyrani
@@ -37,7 +43,6 @@ public class PointPiece extends Piece {
         // Ensure that the total movement is 1 or 2 tiles in a straight line vertically
         int totalMovement = deltaX;
         
-
         //Yellow's Turn
         if (turn == 'Y') {
             if (reversedY) {
