@@ -23,12 +23,6 @@ public class PointPiece extends Piece {
     public boolean getReversedB(){
         return this.reversedB;
     }
-    public void setReversedY(boolean r){
-        this.reversedY=r;
-    }
-    public void setReversedB(boolean r){
-        this.reversedB=r;
-    }
 
     // Check for valid movement.
     // Written: Asyrani

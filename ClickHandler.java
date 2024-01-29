@@ -17,7 +17,7 @@ public class ClickHandler {
     }
 
     // Add listener to each buttons in Main Menu and Board.
-    // Written by: Asyrani, Luqman
+    // Written by: Asyrani
     public void addListener(){
         for(int i=0; i<Board.row; i++){
             for(int j=0; j<Board.column; j++){

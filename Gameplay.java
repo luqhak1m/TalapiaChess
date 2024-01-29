@@ -81,9 +81,10 @@ public class Gameplay {
     // Written by: Luqman
     public void verifyValidTurn(int x, int y){
         if(Piece.piecePositions[x][y]==null){
-            System.out.println("Empty Tile");
+            Board.getBoard().displayMessage("Empty Tile!");;
         }else if(checkValidTurn(Piece.piecePositions[x][y])){
-            setSelectedPiece(Piece.piecePositions[x][y]);
-        }else{System.out.println("Not your turn");}
+            selectedPiece=Piece.piecePositions[x][y];
+        }else{
+            Board.getBoard().displayMessage("Not your turn!");}
     }
 }

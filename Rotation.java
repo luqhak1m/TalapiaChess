@@ -84,7 +84,7 @@ public class Rotation {
     }
 
     // Flip the board when necessary.
-    // Written by: Aisyah, Luqman
+    // Written by: Aisyah
     public void flipBoard() {
 
         Board.getBoard().getBoardPanel().removeAll();
@@ -123,10 +123,6 @@ public class Rotation {
                     if((pointPiece.getPosX()==0||pointPiece.getPosX()==5)&&(pointPiece.getReversedB()||pointPiece.getReversedY())){
                         Tile.tiles[i][j].setTileRotationStatus(true);
                     }
-
-                    // if(!pointPiece.getReversedB()&&!pointPiece.getReversedY()){
-                    //     Tile.tiles[i][j].setTileRotationStatus(false);
-                    // }
             }
         }else{
             Tile.tiles[i][j].setTileRotationStatus(false);
@@ -142,10 +138,6 @@ public class Rotation {
                 if((pointPiece.getPosX()==0||pointPiece.getPosX()==5)&&(pointPiece.getReversedB()||pointPiece.getReversedY())){
                     Tile.tiles[i][j].setTileRotationStatus(false);
                 }
-                
-                // if(!pointPiece.getReversedB()&&!pointPiece.getReversedY()){
-                //     Tile.tiles[i][j].setTileRotationStatus(false);
-                // }
             }
         }
     }

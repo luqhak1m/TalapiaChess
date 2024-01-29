@@ -68,7 +68,7 @@ public class CurrentState {
     }
 
     // Save the current state of the game such as the turn count, whose turn, pieces status.
-    // Written by: Luqman
+    // Written by: Haiqal
     public void saveState(int turnCount, char whoseTurn){
         setTurnCountState(turnCount);
         setWhoseTurnState(whoseTurn);

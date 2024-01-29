@@ -1,7 +1,7 @@
 
 // View
 // Main Menu. Singleton is to prevent multiple Mian Menus.
-// Author: Luqman
+// Author: Asyrani, Luqman
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +14,10 @@ public class MainMenu extends JFrame{
     JButton playButton, loadButton, exitButton;
 
     // Getters and SettersConstructor
-    // Written by: Luqman
+    // Written by: Asyrani
     private MainMenu(){
 
-        setTitle("Talabia Chess - Main Menus");
+        setTitle("Talabia Chess - Main Menu");
         setSize(600,600);
 
         JPanel panel=new JPanel();
@@ -45,7 +45,7 @@ public class MainMenu extends JFrame{
     }
 
     // Getters.
-    // Written by: Luqman
+    // Written by: Asyrani
     public JButton getPlayButton(){
         return playButton;
     }

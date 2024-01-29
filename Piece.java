@@ -1,6 +1,6 @@
 
 // Model class. Holds all the necessary information for each piece's subclasses.
-// Author: Luqman
+// Author: Sabrina
 
 public abstract class Piece{
 
@@ -11,7 +11,7 @@ public abstract class Piece{
     public static Piece piecePositions[][]=new Piece[Board.row][Board.column];
 
     // Constructor.
-    // Written by: Luqman
+    // Written by: Sabrina
     public Piece(int x, int y, char st, char si){
 
         this.posX=x;
@@ -23,7 +23,7 @@ public abstract class Piece{
     }
 
     // Getters and Setters
-    // Written by: Luqman
+    // Written by: Sabrina
     public int getPosX(){
         return this.posX;
     }
@@ -51,8 +51,10 @@ public abstract class Piece{
     }
 
     // Check if the piece's movement is valid.
+    // Written by: Sabrina
     public abstract boolean validMove(int newX, int newY);
 
     // Check if the piece's path have any other piece.
+    // Written by: Sabrina
     public abstract boolean skipPiece(int newX, int newY);
 }

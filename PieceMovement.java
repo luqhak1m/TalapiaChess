@@ -26,6 +26,7 @@ public class PieceMovement {
                 pieceAtPlacedTile.setStatusDead();
                 removePieceFromTile(Piece.piecePositions[x][y]);
                 if(pieceAtPlacedTile instanceof SunPiece){
+                    Board.getBoard().displayMessage("Sun has been captured! " + p.getSide() + " side Wins!");
                     gameControl.endGame();return;
                 }        
                 // System.out.println("Ate a piece! The piece "+pieceAtPlacedTile+ " at " + x + ", " + y  + "'s status is DEAD: " + pieceAtPlacedTile.getStatus());

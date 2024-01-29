@@ -10,7 +10,7 @@ public class Board extends JFrame {
 
     private JPanel gamePanel=new JPanel(new GridLayout(row, column));
     private static Board theBoard;
-    static int row = 6, column = 7;
+    public static int row = 6, column = 7;
     private boolean rotate = false;
     private Dimension originalSize;
     private int width = 1000;
@@ -82,16 +82,15 @@ public class Board extends JFrame {
     }
 
     // Display board..
-    // Written by: Luqman
+    // Written by: Asyrani
     public void displayBoard() {
         getBoard().setVisible(true);
     }
 
     // Display messages.
-    // Written by: Luqman
+    // Written by: Asyrani
     public void displayMessage(String s){
         JOptionPane.showMessageDialog(this, s);
-
     }
 
     // Add tiles into the board..

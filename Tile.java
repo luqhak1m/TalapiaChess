@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 
 public class Tile extends JButton{
 
-    int xCoord, yCoord;
+    private int xCoord, yCoord;
     private boolean rotate=false;
     private ImageIcon defaultImage, rotatedImage;
     private int defaultWidth=100, defaultHeight=100;
@@ -43,6 +43,19 @@ public class Tile extends JButton{
     public void setTileRotationStatus(boolean r){
         rotate=r;
     }
+    public void setIconAtTile(){
+        if(defaultImage!=null&&rotatedImage!=null){
+            if(this.rotate){
+                Image resizedImage = getRotatedIconImageType().getScaledInstance(this.getWidth()/2, this.getHeight()/2, java.awt.Image.SCALE_SMOOTH);
+                this.setIcon(getIconImageIconType(resizedImage));
+            }else{
+                Image resizedImage = getIconImageType().getScaledInstance(this.getWidth()/2, this.getHeight()/2, java.awt.Image.SCALE_SMOOTH);
+                this.setIcon(getIconImageIconType(resizedImage));
+            }
+        }else{
+            this.setIcon(null);
+        }
+    }
     public ImageIcon getDefaultImg(){
         return defaultImage;
     }
@@ -60,24 +73,6 @@ public class Tile extends JButton{
     public ImageIcon getRotatedImg(){
         return rotatedImage;
     }
-    public void setIconAtTile(){
-        if(defaultImage!=null&&rotatedImage!=null){
-            if(this.rotate){
-                Image resizedImage = getRotatedIconImageType().getScaledInstance(this.getWidth()/2, this.getHeight()/2, java.awt.Image.SCALE_SMOOTH);
-                this.setIcon(getIconImageIconType(resizedImage));
-            }else{
-                Image resizedImage = getIconImageType().getScaledInstance(this.getWidth()/2, this.getHeight()/2, java.awt.Image.SCALE_SMOOTH);
-                this.setIcon(getIconImageIconType(resizedImage));
-            }
-        }else{
-            this.setIcon(null);
-        }
-        // if(this.rotate){
-        //     this.setIcon(rotatedImage);
-        // }else{
-        //     this.setIcon(defaultImage);
-        // }
-    }
     public int getxCoord(){
         return this.xCoord;
     }
@@ -93,7 +88,7 @@ public class Tile extends JButton{
     public int getDefaultHeight(){
         return defaultHeight;
     }
-    public int getyDefaultWidth(){
+    public int getDefaultWidth(){
         return defaultWidth;
     }
     public boolean getRotationStatus(){

@@ -90,7 +90,7 @@ public class GameControl{
     }
 
     // Reset the game state.
-    // Written by: Haiqal, Luqman
+    // Written by: Haiqal
     public void resetGame() {
 
         gameplayController.setTurnNumber(0);
@@ -132,7 +132,6 @@ public class GameControl{
 
         tile.setDefaultImg((IconHandler.getIconMap().get(p.getClass()).getIconImg(p.getSide())));
         tile.setRotatedImg(tile.getIconImageIconType(rotationController.rotateImage(tile.getIconImageType(), 180)));
-        //rotationController.resizeImages(tile.getyDefaultWidth()/Board.row, tile.getDefaultHeight()/Board.column, p.getPosX(), p.getPosY());
 
         rotationController.checkRotation(p, gameplayController.getWhoseTurn(), p.getPosX(), p.getPosY());
         tile.setIconAtTile();
@@ -171,30 +170,24 @@ public class GameControl{
 
         System.out.println("\n+-+-+-+-+-+-+\nTile " + x + ", " + y + " clicked!");
         System.out.println("Turn number " + gameplayController.getTurnNumber() + "\n");
-        System.out.println("Tile " + x + ", " + y + " rotation is " + Tile.tiles[x][y].getRotationStatus());
-        if(Piece.piecePositions[x][y] instanceof PointPiece){
-            PointPiece pointPiece= (PointPiece) Piece.piecePositions[x][y];
-            if(pointPiece.getSide()=='Y'){
-                System.out.println("Point Piece reversion is " + pointPiece.getReversedY());
-            }else{
-                System.out.println("Point Piece reversion is " + pointPiece.getReversedB());
-            }
-        }
 
-
-        if(gameplayController.getSelectedPiece()==null){ // if no selected piece then select the clicked piece
+         // If no selected piece then select the clicked piece.
+        if(gameplayController.getSelectedPiece()==null){
+            // Check if the click on the piece is a valid one (correct turn, etc)
             gameplayController.verifyValidTurn(x, y);
             gameplayController.printSelectedPiece();
             return;
         }
         
-        if(gameplayController.getSelectedPiece().getPosX()==x&&gameplayController.getSelectedPiece().getPosY()==y){ // if click at same position (deselect)
+        // If click at the same tile when already selecting a piece it will deselect.
+        if(gameplayController.getSelectedPiece().getPosX()==x&&gameplayController.getSelectedPiece().getPosY()==y){
             board.displayMessage("Piece deselected!");
             gameplayController.setSelectedPiece(null);
             gameplayController.printSelectedPiece();
             return;
         }
 
+        // Move the piece.
         pieceMovementController.movePieces(x, y, gameplayController.getSelectedPiece());
     }
 
@@ -207,13 +200,13 @@ public class GameControl{
     }
 
     // To get the saveGame() method from the CurrentState controller.
-    // Written by: Luqman
+    // Written by: Haiqal
     public void saveGame(){
         currentStateController.saveGame(gameplayController.getTurnNumber(), gameplayController.getWhoseTurn(), currentStateController.getPiecePositionsState());
     }
 
     // To get the saveState() method from the CurrentState controller.
-    // Written by: Luqman
+    // Written by: Haiqal
     public void saveState(){
         currentStateController.saveState(gameplayController.getTurnNumber(), gameplayController.getWhoseTurn());
     }

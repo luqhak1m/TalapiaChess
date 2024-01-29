@@ -4,7 +4,6 @@
 // Author: Luqman
 
 import java.awt.*;
-
 import javax.swing.ImageIcon;
 
 public class PieceIcon {
@@ -48,5 +47,4 @@ public class PieceIcon {
         }else{
         return this.blueImage;}
     }
-
 }

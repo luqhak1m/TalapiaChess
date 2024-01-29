@@ -3,7 +3,7 @@
 // Singleton is also applied here to make sure every pieces' instances exist in one place.
 // As a controller, this class also acts as a subsystem to the Facade class GameControl.
 // Used in: GameControl.java
-// Author: Luqman
+// Author: Luqman, Sabrina
 
 import java.util.Map;
 
@@ -28,8 +28,8 @@ public class CreatePiece{
     
     // Setting Facade class.
     // Written by: Luqman
-    public void setGameControl(GameControl gControl){
-        gameControl=gControl;
+    public void setGameControl(GameControl gameControl){
+        this.gameControl=gameControl;
     }
 
     // Get the singleton object.
@@ -46,14 +46,14 @@ public class CreatePiece{
     }    
 
     // Create a piece and putting the icon on the board.
-    // Written by: Luqman
+    // Written by: Sabrina
     public void initializePiece(String pieceType, int x, int y, char status, char side) {
         Piece p=createPieceController.createPiece(pieceType, x, y, status, side);
         gameControl.setPieceAtTile(p);
     }
     
     // Create pieces and putting it on the board.
-    // Written by: Luqman
+    // Written by: Sabrina
     public void instantiatePieces(){
 
         initializePiece("PlusPiece", 5, 0, 'A', 'Y');
